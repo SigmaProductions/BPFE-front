@@ -1,9 +1,10 @@
-import { ExampleParagraph } from '../components/Example';
+import Example from '../components/Example/Example';
 
 export default function Homepage() {
   return (
     <div>
-      <ExampleParagraph>Hello</ExampleParagraph>
+      <Example />
+      <div>some other component</div>
     </div>
   );
 }
