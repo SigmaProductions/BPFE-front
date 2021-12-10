@@ -1,10 +1,10 @@
-import Example from '../components/Example/Example';
+import styled from 'styled-components';
+import Landing from '../components/Homepage/Landing';
 
 export default function Homepage() {
-  return (
-    <div>
-      <Example />
-      <div>some other component</div>
-    </div>
-  );
+    return (
+        <div>
+            <Landing />
+        </div>
+    );
 }

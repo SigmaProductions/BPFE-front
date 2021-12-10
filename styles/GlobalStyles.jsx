@@ -6,8 +6,18 @@ export const GlobalStyles = createGlobalStyle`
    :root {
   font-size: 62.5%;
     }
-    
+    head, #__next{
+        width: 100%;
+        height: 100%;
+    }
+    #__next{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     body{
+        width: 100%;
+        height: 100%;
         margin: 0;
         padding: 0;
     }
