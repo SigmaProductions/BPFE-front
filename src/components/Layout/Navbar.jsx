@@ -6,8 +6,9 @@ import { StyledLink } from '../Generic/Link';
 const NavbarContainer = styled.div`
     display: flex;
     width: 100%;
-    height: 6.5rem;
-    border-bottom: 1px ${({ theme: { color } }) => color.brown} solid;
+    height: 8rem;
+    padding-top: 1rem;
+    border-bottom: 1px ${({ theme: { color } }) => color.darkGrey} solid;
 `;
 
 const Nav = styled.nav`
@@ -53,8 +54,8 @@ const NavLink = styled.a`
     font-size: ${({ theme: { fontSize } }) => fontSize.medium};
     text-align: center;
     margin-right: 2rem;
-    padding-left: 0.8rem;
-    border-left: 1px ${({ theme: { color } }) => color.brown} solid;
+    padding-left: 1.5rem;
+    border-left: 1px ${({ theme: { color } }) => color.darkGrey} solid;
 `;
 
 const NavButton = styled(GenericButton)`
@@ -72,13 +73,13 @@ export default function Navbar() {
                         <NavLink>Home</NavLink>
                     </NavElement>
                     <NavElement>
-                        <NavLink>Home</NavLink>
+                        <NavLink>About us</NavLink>
                     </NavElement>
                     <NavElement>
-                        <NavLink>Home</NavLink>
+                        <NavLink>Contact</NavLink>
                     </NavElement>
                 </NavList>
-                <NavButton>Epic action</NavButton>
+                <NavButton>Login</NavButton>
             </Nav>
         </NavbarContainer>
     );

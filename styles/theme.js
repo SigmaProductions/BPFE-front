@@ -5,6 +5,7 @@ export const color = {
     brown: '#7c7c7c',
     grey: '#f5f5f5',
     white: '#fefefe',
+    darkGrey: '#e5e5e5',
 };
 
 export const fontSize = {
