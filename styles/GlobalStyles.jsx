@@ -35,4 +35,7 @@ export const GlobalStyles = createGlobalStyle`
         ${ParagraphBody};
         margin: 0;
     }
+    a{
+        text-decoration: none;
+    }
     `;

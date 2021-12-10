@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
 import { GenericButton } from '../Generic/Buttons';
@@ -70,13 +71,19 @@ export default function Navbar() {
             <Nav>
                 <NavList>
                     <NavElement>
-                        <NavLink>Home</NavLink>
+                        <NavLink>
+                            <Link href="/">Home</Link>
+                        </NavLink>
                     </NavElement>
                     <NavElement>
-                        <NavLink>About us</NavLink>
+                        <NavLink>
+                            <Link href="aboutUs">About us</Link>
+                        </NavLink>
                     </NavElement>
                     <NavElement>
-                        <NavLink>Contact</NavLink>
+                        <NavLink>
+                            <Link href="contact">Contact</Link>
+                        </NavLink>
                     </NavElement>
                 </NavList>
                 <NavButton>Login</NavButton>
