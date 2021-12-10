@@ -12,7 +12,7 @@ export default function Landing() {
             <Title />
             dsf
             <video controls  width="320" height="240" autoPlay>
-                <source src="/lodz.webm" type="video/webm" />
+                <source preload="auto" src="/lodz.webm" type="video/webm" />
                 Your browser does not support the video tag.
             </video>
             sdf

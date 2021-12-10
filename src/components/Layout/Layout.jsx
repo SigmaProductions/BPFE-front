@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Navbar from './Navbar';
 
 const PageContainer = styled.div`
     width: 1400px;
@@ -8,18 +9,10 @@ const PageContainer = styled.div`
     background-color: ${({ theme: { color } }) => color.white};
 `;
 
-export const Navbar = styled.nav`
-    display: flex;
-    flex-direction: column;
-    height: 8rem;
-    width: 100%;
-    border-bottom: 1px ${({ theme: { color } }) => color.brown} solid;
-`;
-
 export default function Layout({ children }) {
     return (
         <PageContainer>
-            <Navbar></Navbar>
+            <Navbar />
             {children}
         </PageContainer>
     );
