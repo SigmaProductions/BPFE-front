@@ -16,6 +16,7 @@ export const GlobalStyles = createGlobalStyle`
         align-items: center;
     }
     body{
+        font-family: Helvetica;
         width: 100%;
         height: 100%;
         margin: 0;
@@ -32,5 +33,6 @@ export const GlobalStyles = createGlobalStyle`
     }
     p{
         ${ParagraphBody};
+        margin: 0;
     }
     `;
