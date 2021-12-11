@@ -9,6 +9,6 @@ export function findEndpoint(summary) {
     return endpoints.find((obj) => obj.summary === summary).endpoint;
 }
 
-export function findSummaryWithPhrase(phrase) {
+export function findEndpointObjectsWithPhrase(phrase) {
     return endpoints.filter(({ summary }) => summary.toLowerCase().includes(phrase.toLowerCase()));
 }
