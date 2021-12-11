@@ -109,6 +109,11 @@ export default function Navbar() {
                             <Link href="/klient_indywidualny">Klient indywidualny</Link>
                         </NavLink>
                     </NavElement>
+                    <NavElement>
+                        <NavLink>
+                            <Link href="/flow">Design</Link>
+                        </NavLink>
+                    </NavElement>
                 </NavList>
                 <NavButton>Login</NavButton>
             </Nav>
