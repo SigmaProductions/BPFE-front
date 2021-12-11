@@ -7,6 +7,8 @@ import { GenericButton } from '../Generic/Buttons';
 import CustomCarousel from './CustomCarousel';
 import OPTIONS, { MAIN_OPTION_NAMES } from '../../Consts/options';
 import { firstLetterUpperCase } from '../../utils/utils';
+import HouseList from '../HouseList/HouseList';
+import SearchResultScreen from '../SearchResultScreen/SearchResultScreen';
 
 const FormContainer = styled.div`
     margin-top: 6rem;
@@ -20,7 +22,6 @@ const FormContainer = styled.div`
 `;
 
 const FormHeader = styled.h1`
-    margin-top: 2rem;
     color: ${({ theme: { color } }) => color.secondaryBlue};
     font-size: 4rem;
     font-weight: ${({ theme: { fontWeight } }) => fontWeight.xthin};
@@ -77,6 +78,36 @@ const SearchButton = styled(FormButton)`
     height: 5rem;
 `;
 
+const FormRow = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    margin-bottom: 3rem;
+`;
+
+const MainButtons = styled(FormButton)`
+    width: 25rem;
+    height: 6rem;
+`;
+
+const RowHeader = styled.h2`
+    color: ${({ theme: { color } }) => color.secondaryBlue};
+    font-size: ${({ theme: { fontSize } }) => fontSize.turbo};
+    font-weight: ${({ theme: { fontWeight } }) => fontWeight.xthin};
+`;
+
+const ButtonRow = styled.div`
+    display: flex;
+
+    button {
+        font-size: 1.8rem;
+        font-weight: ${({ theme: { fontWeight } }) => fontWeight.bold};
+        margin-left: 2rem;
+    }
+`;
+
 export default function MainForm() {
     const [loading, setLoading] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
@@ -109,30 +140,77 @@ export default function MainForm() {
             <CustomCarousel />
             <FormContainer>
                 <FormHeader>Czego szukasz?</FormHeader>
-                <FormButtonsContainer>
-                    {OPTIONS.map(({ name, values }) => (
-                        <CustomAccordion key={name}>
-                            <Accordion.Item>
-                                <Accordion.Header>{firstLetterUpperCase(name)}</Accordion.Header>
-                                <Accordion.Body>
-                                    {values.map((arg) => (
-                                        <FormButton
-                                            onClick={(e) => handleSelectOption(e)}
-                                            $isSelected={selectedOptions.includes(arg)}
-                                            key={arg}
-                                            value={arg}
-                                        >
-                                            {firstLetterUpperCase(arg)}
-                                        </FormButton>
-                                    ))}
-                                </Accordion.Body>
-                            </Accordion.Item>
-                        </CustomAccordion>
-                    ))}
-                </FormButtonsContainer>
+                <FormRow>
+                    <RowHeader>Rodzaj lokalu</RowHeader>
+                    <ButtonRow>
+                        {MAIN_OPTION_NAMES.map((option) => (
+                            <MainButtons
+                                onClick={(e) => handleSelectOption(e)}
+                                $isSelected={selectedOptions.includes(option)}
+                                key={option}
+                                value={option}
+                            >
+                                {option}
+                            </MainButtons>
+                        ))}
+                    </ButtonRow>
+                </FormRow>
+                <FormRow>
+                    <RowHeader>Demografia i komfort życia</RowHeader>
+                    <FormButtonsContainer>
+                        {OPTIONS.citizens.map((option) => (
+                            <CustomAccordion defaultActiveKey="0" key={option.name}>
+                                <Accordion.Item>
+                                    <Accordion.Header>
+                                        {firstLetterUpperCase(option.name)}
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                        {option.values.map((arg) => (
+                                            <FormButton
+                                                onClick={(e) => handleSelectOption(e)}
+                                                $isSelected={selectedOptions.includes(arg)}
+                                                key={arg}
+                                                value={arg}
+                                            >
+                                                {firstLetterUpperCase(arg)}
+                                            </FormButton>
+                                        ))}
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </CustomAccordion>
+                        ))}
+                    </FormButtonsContainer>
+                </FormRow>
+                <FormRow>
+                    <RowHeader>Infrastruktura i okolice</RowHeader>
+                    <FormButtonsContainer>
+                        {OPTIONS.infrastructure.map((option) => (
+                            <CustomAccordion defaultActiveKey="0" key={option.name}>
+                                <Accordion.Item>
+                                    <Accordion.Header>
+                                        {firstLetterUpperCase(option.name)}
+                                    </Accordion.Header>
+                                    <Accordion.Body>
+                                        {option.values.map((arg) => (
+                                            <FormButton
+                                                onClick={(e) => handleSelectOption(e)}
+                                                $isSelected={selectedOptions.includes(arg)}
+                                                key={arg}
+                                                value={arg}
+                                            >
+                                                {firstLetterUpperCase(arg)}
+                                            </FormButton>
+                                        ))}
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </CustomAccordion>
+                        ))}
+                    </FormButtonsContainer>
+                </FormRow>
                 <SearchButton onClick={() => packData()}>
                     {loading ? <Spinner animation="border" /> : 'JEDZIEMY!'}
                 </SearchButton>
+                <SearchResultScreen />
             </FormContainer>
         </>
     );
