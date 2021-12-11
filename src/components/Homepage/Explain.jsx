@@ -5,7 +5,7 @@ const ExplainContainer = styled.div`
     background-color: ${({ theme: { color } }) => color.secondaryBlue};
     padding: 4rem;
     padding-top:0;
-    margin-top:-6rem;
+    // margin-top:-6rem;
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
@@ -36,7 +36,7 @@ const ExplanationImage = styled.div`
     height: 70rem;
     background-image: linear-gradient(to bottom,
         ${({theme: {color}})=> color.secondaryBlue},
-        rgba(255, 255, 255, 0)),
+        ${({theme: {color}})=> color.primaryBlue}40),
         url('${({src})=>src }');
     background-size: cover;
     margin:5rem;

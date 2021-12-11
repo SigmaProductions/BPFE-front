@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import Separator from '../Generic/Separator';
 import Explain from './Explain';
 import UnlockTitle from './UnlockTitle';
 
 const Main = styled.div`
-    background-color: ${({ theme: { color } }) => color.secondaryBlue};
+    background-color: ${({ theme: { color } }) => color.white};
     position: absolute;
     left: 0;
     right: 0;
@@ -13,14 +14,7 @@ const Main = styled.div`
     height: auto;
 `;
 
-const Separator = styled.div`
-    width: 100%;
-    height: 10rem;
-    background-color: ${({ theme: { color } }) => color.white};
-    z-index: 2;
-    transform: skewY(3deg);
-    transform-origin: top right;
-`;
+
 export default function Landing() {
     return (
         <Main>
