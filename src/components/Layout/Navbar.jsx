@@ -46,7 +46,7 @@ const NavElement = styled.li`
     padding: 1rem 0 1rem 1rem;
 `;
 
-const NavLink = styled.a`
+const NavLink = styled.p`
     display: flex;
     align-items: center;
     border-left: 1rem;
@@ -77,12 +77,12 @@ export default function Navbar() {
                     </NavElement>
                     <NavElement>
                         <NavLink>
-                            <Link href="aboutUs">About us</Link>
+                            <Link href="/aboutUs">About us</Link>
                         </NavLink>
                     </NavElement>
                     <NavElement>
                         <NavLink>
-                            <Link href="contact">Contact</Link>
+                            <Link href="/contact">Contact</Link>
                         </NavLink>
                     </NavElement>
                 </NavList>
