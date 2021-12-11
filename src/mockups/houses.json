@@ -1,0 +1,40 @@
+{
+   "0": {
+       "cena": 12000,
+       "nazwa": "Drewnowska 43",
+       "adres": "Łódź, Bałuty, Drewnowska 43",
+       "numer_mieszkania": 43,
+       "img": "kiedysurldozjecia",
+       "url": "https://www.otodom.pl//pl/oferta/lokal-parter-witryny-handel-uslugi-gastronomia-ID4csQ5",
+       "perks": {
+           "gastronomiczny": true,
+           "handlowy": false,
+           "usługowy": false,
+           "biurowy": false,
+           "przemysłowy": false
+       },
+       "features": {
+           "lasy": "0",
+           "szpitaleOp": "1"
+       }
+   },
+   "1": {
+       "cena": 3100,
+       "nazwa": "Drewnowska 62",
+       "adres": "Łódź, Bałuty, Drewnowska 62",
+       "numer_mieszkania": 62,
+       "img": "kiedysurldozjecia",
+       "url": "https://www.otodom.pl//pl/oferta/lokale-uz-centrum-lodz-manufaktura-witryny-gotowe-ID4alxq",
+       "perks": {
+           "gastronomiczny": true,
+           "handlowy": false,
+           "usługowy": false,
+           "biurowy": false,
+           "przemysłowy": false
+       },
+       "features": {
+           "lasy": "0",
+           "szpitaleOp": "1"
+       }
+   }
+}
