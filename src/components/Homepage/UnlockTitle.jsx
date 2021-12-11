@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Unlock = styled.div`
-    // height:50rem;
     position: relative;
     width: 100vw;
-    height: 60rem;
+    // height: 60rem;
+    min-height:60rem;
     display: flex;
     flex-flow: column;
     background-color: ${({ theme: { color } }) => color.secondaryBlue};
@@ -35,19 +35,14 @@ const Gradient = styled.div`
     width: 899px;
     height: 100%;
 `;
-const Text = styled.span`
-    font-size: 3rem;
-    color: ${({ theme: { color } }) => color.white};
-    z-index: 3;
-`;
 
-const RedBik= styled.span`
+const RedBik = styled.span`
     color: ${({ theme: { color } }) => color.orange};
-`
+`;
 
 const LodzZoomText = styled.span`
     z-index: 2;
-    font-size: 6rem;
+    font-size: 9rem;
     color: white;
     position: absolute;
     top: 20%;
