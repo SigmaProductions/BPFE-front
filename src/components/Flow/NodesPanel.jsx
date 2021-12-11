@@ -34,18 +34,16 @@ const Description = styled.div`
 font-size: 1.5rem;
 `
 const Draggable = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-height: 4rem;
-width:10rem;
-
-font-size: 1.5rem;
-border-radius:5px;
-border: 3px blue;
-:hover{
-    background-color: ${({ theme: { color } }) => color.secondaryBlue}20;
-}
+    text-align: center;
+    height: 6rem;
+    padding:1rem;
+    width:10rem;
+    font-size: 1.5rem;
+    border-radius:5px;
+    border: 3px blue;
+    :hover{
+        background-color: ${({ theme: { color } }) => color.secondaryBlue}20;
+    }
 `
 const SearchResults = styled(Draggable)`
 `
@@ -60,22 +58,24 @@ export default () => {
     const [questionText, setQuestionText] = useState(null);
 
     useEffect(() => {
-        setSearchResults([1, 2, 3]);
+        setSearchResults( [{'summary': 'test1', 'endpoint':  'test2'}] );
     }, [searchPhrase]);
 
-    const onDragStart = (event, nodeType) => {
+    const onDragStart = (event, nodeType, text, endpoint=null) => {
         event.dataTransfer.setData('application/reactflow', nodeType);
+        event.dataTransfer.setData('application/reactflow/text', text);
+        event.dataTransfer.setData('application/reactflow/endpoint', endpoint);
         event.dataTransfer.effectAllowed = 'move';
     };
     function onInputChange(event) {
-        setSearchPhrase({
-            [event.target.name]: event.target.value
-        });
+        setSearchPhrase(
+             event.target.value
+        );
     }
     function onQuestionTextChange(event) {
-        setQuestionText({
-            [event.target.name]: event.target.value
-        });
+        setQuestionText(
+             event.target.value
+        );
     }
 
 
@@ -89,14 +89,13 @@ export default () => {
                             <Description>Podaj cechę ze zbioru którą chcesz dodać do grafu:</Description>
                             <CustomInput type="text" placeholder="Cecha..." onChange={onInputChange}  />
                             <SearchResults>
-                                {searchResults.map((ele) => {
-                                    return <span>dsafdf</span>
+                                {searchResults.map((ele,index) => {
+                                    return  <Draggable onDragStart={(event) => onDragStart(event, 'output', ele['summary'], ele['endpoint'])} draggable>
+                                                {ele['summary']}
+                                            </Draggable>
                                 })}
                             </SearchResults>
 
-                            <Draggable onDragStart={(event) => onDragStart(event, 'input')} draggable>
-                                Input Node
-                            </Draggable>
                         </Panel>
                     </Accordion.Body>
                 </Accordion.Item>
@@ -106,12 +105,12 @@ export default () => {
                         <Panel>
                             <Description>Podaj pytanie które zostanie zadane użytkownikowi:</Description>
                             <CustomInput type="text" placeholder="Pytanie..." onChange={onQuestionTextChange}  />
-                                {questionText!=""?
+                                {questionText &&
                             <><Description>Dodaj do grafu wierzchołek z pytaniem:</Description>
-                            <Draggable onDragStart={(event) => onDragStart(event, 'default')} draggable>
-                                Default Node
+                            <Draggable onDragStart={(event) => onDragStart(event, 'default', questionText)} draggable>
+                                Przeciągnij mnie
                             </Draggable>
-                            </> : <div>dg</div> }
+                            </>  }
                         </Panel>
                     </Accordion.Body>
                 </Accordion.Item>
