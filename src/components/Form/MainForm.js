@@ -5,7 +5,8 @@ import axios from 'axios';
 
 import { GenericButton } from '../Generic/Buttons';
 import CustomCarousel from './CustomCarousel';
-import OPTIONS from '../../Consts/options';
+import OPTIONS, { MAIN_OPTION_NAMES } from '../../Consts/options';
+import { firstLetterUpperCase } from '../../utils/utils';
 
 const FormContainer = styled.div`
     margin-top: 6rem;
@@ -80,6 +81,20 @@ export default function MainForm() {
     const [loading, setLoading] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
 
+    function packData() {
+        const selectedMainOptions = {};
+        selectedOptions
+            .filter((option) => MAIN_OPTION_NAMES.includes(option))
+            .forEach((option) => (selectedMainOptions[option] = true));
+        const features = selectedOptions.filter((option) => !MAIN_OPTION_NAMES.includes(option));
+        const defaultMainOptions = {};
+        MAIN_OPTION_NAMES.forEach((option) => {
+            defaultMainOptions[option] = false;
+        });
+        const payload = { features, ...defaultMainOptions, ...selectedMainOptions };
+        console.log(payload);
+    }
+
     function handleSelectOption({ target }) {
         const { value: optionName } = target;
         if (selectedOptions.includes(optionName)) {
@@ -88,8 +103,6 @@ export default function MainForm() {
         }
         setSelectedOptions((prevState) => [...prevState, optionName]);
     }
-
-    const firstLetterUpperCase = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
     return (
         <>
@@ -117,7 +130,7 @@ export default function MainForm() {
                         </CustomAccordion>
                     ))}
                 </FormButtonsContainer>
-                <SearchButton>
+                <SearchButton onClick={() => packData()}>
                     {loading ? <Spinner animation="border" /> : 'JEDZIEMY!'}
                 </SearchButton>
             </FormContainer>
