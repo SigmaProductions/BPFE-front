@@ -64,7 +64,7 @@ const CanvasButton = styled(GenericButton)`
     }
 `;
 
-export default function HouseModal({ house, showOffcanvas, setShowOffcanvas }) {
+export default function HouseCanvas({ house, showOffcanvas, setShowOffcanvas }) {
     const { name, features, perks, path } = house;
 
     const perksArray = Object.entries(perks)

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { GenericButton } from '../Generic/Buttons';
-import HouseModal from './HouseModal';
+import HouseCanvas from './HouseCanvas';
 
 const ListContainer = styled.ul`
     display: flex;
@@ -95,11 +95,11 @@ export default function HouseList({ houses }) {
     return (
         <ListContainer>
             {showOffcanvas && (
-                <HouseModal
+                <HouseCanvas
                     showOffcanvas={showOffcanvas}
                     setShowOffcanvas={setShowOffcanvas}
                     house={selectedHouse}
-                ></HouseModal>
+                ></HouseCanvas>
             )}
             {result.map((house) => (
                 <ListItem key={house.name}>
