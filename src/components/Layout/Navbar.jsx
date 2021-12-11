@@ -101,7 +101,12 @@ export default function Navbar() {
                     </NavElement>
                     <NavElement>
                         <NavLink>
-                            <Link href="/contact">Contact</Link>
+                            <Link href="/charts">Chart</Link>
+                        </NavLink>
+                    </NavElement>
+                    <NavElement>
+                        <NavLink>
+                            <Link href="/klient_indywidualny">Klient indywidualny</Link>
                         </NavLink>
                     </NavElement>
                     <NavElement>
