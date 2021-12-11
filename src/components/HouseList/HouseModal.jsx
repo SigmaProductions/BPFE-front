@@ -1,34 +1,110 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import { Offcanvas, OverlayTrigger, Popover } from 'react-bootstrap';
 import styled from 'styled-components';
 
-const CustomModal = styled(Modal)`
-    height: 100%;
-    width: 100%;
+import { findSummary, firstLetterUpperCase } from '../../utils/utils';
+import { GenericButton } from '../Generic/Buttons';
 
-    .modal-dialog {
-        margin: 0 auto 0 auto;
-        max-width: auto;
-        height: 100%;
-        width: 1000px;
+const CustomCanvas = styled(Offcanvas)`
+    .offcanvas-title {
+        font-size: ${({ theme: { fontSize } }) => fontSize.turbo};
     }
-    .modal-content {
-        height: 60%;
+    .offcanvas-body {
+        display: flex;
+        flex-direction: column;
     }
 `;
 
-export default function HouseModal() {
+const CanvasHeader = styled.h3`
+    margin-top: 2rem;
+    text-align: center;
+    color: ${({ theme: { color } }) => color.brown};
+`;
+
+const PerkItem = styled.div`
+    display: flex;
+    align-items: center;
+    height: 5rem;
+    font-size: ${({ theme: { fontSize } }) => fontSize.xlarge};
+    border-bottom: 1px ${({ theme: { color } }) => color.brown} solid;
+    :first-child {
+        border-top: 1px ${({ theme: { color } }) => color.brown} solid;
+    }
+`;
+
+const CanvasItem = styled.div`
+    display: flex;
+    align-items: center;
+    height: 5rem;
+    font-size: ${({ theme: { fontSize } }) => fontSize.xlarge};
+    border-bottom: 1px ${({ theme: { color } }) => color.brown} solid;
+    :first-child {
+        border-top: 1px ${({ theme: { color } }) => color.brown} solid;
+    }
+`;
+
+const CanvasValue = styled.p`
+    font-size: inherit;
+    color: ${({ theme: { color } }) => color.orange};
+    margin-left: 0.5rem;
+`;
+
+const CustomPopover = styled(Popover)`
+    .popover-header,
+    .popover-body {
+        font-size: ${({ theme: { fontSize } }) => fontSize.xlarge};
+    }
+`;
+
+const CanvasButton = styled(GenericButton)`
+    margin-top: auto;
+    a {
+        color: inherit;
+    }
+`;
+
+export default function HouseModal({ house, showOffcanvas, setShowOffcanvas }) {
+    const { name, features, perks, path } = house;
+
+    const perksArray = Object.entries(perks)
+        .filter(([key, value]) => value)
+        .map(([key, value]) => key);
+
+    const featuresArray = Object.entries(features);
+
     return (
-        <CustomModal show={true}>
-            <Modal.Header closeButton>
-                <Modal.Title>Modal title</Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
-                <p>Modal body text goes here.</p>
-            </Modal.Body>
-
-            <Modal.Footer></Modal.Footer>
-        </CustomModal>
+        <CustomCanvas show={showOffcanvas} onHide={() => setShowOffcanvas(false)}>
+            <Offcanvas.Header closeButton>
+                <Offcanvas.Title>{name}</Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+                <CanvasHeader>Rodzaj nieruchomości</CanvasHeader>
+                {perksArray.map((perk) => (
+                    <PerkItem key={perk}>{firstLetterUpperCase(perk)}</PerkItem>
+                ))}
+                <CanvasHeader>Cechy</CanvasHeader>
+                {featuresArray.map(([name, value]) => (
+                    <OverlayTrigger
+                        key={name}
+                        trigger="click"
+                        placement="right"
+                        overlay={
+                            <CustomPopover>
+                                <Popover.Header as="h3">{name}</Popover.Header>
+                                <Popover.Body>{findSummary(name)}</Popover.Body>
+                            </CustomPopover>
+                        }
+                    >
+                        <CanvasItem>
+                            {name}: <CanvasValue>{value}</CanvasValue>
+                        </CanvasItem>
+                    </OverlayTrigger>
+                ))}
+                <CanvasButton>
+                    <a href={path}>Przejdź do strony nieruchomości</a>
+                </CanvasButton>
+            </Offcanvas.Body>
+        </CustomCanvas>
     );
 }

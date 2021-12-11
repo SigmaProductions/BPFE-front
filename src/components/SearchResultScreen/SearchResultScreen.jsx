@@ -13,17 +13,14 @@ const ScreenContainer = styled.div`
 
 function mapHouseObject(houses) {
     return Object.keys(houses).map((key) => ({
-        name: houses[key].name,
+        name: houses[key].nazwa,
         address: houses[key].adres,
         price: houses[key].cena,
-        img: houses[key].url,
+        img: houses[key].img,
         score: houses[key].score,
-        perks: {
-            gastronomiczny: houses[key].gastronomiczny,
-            handlowy: houses[key].handlowy,
-            przemysłowy: houses[key].przemyslowy,
-            biurowy: houses[key].biurowy,
-        },
+        perks: houses[key].perks,
+        features: houses[key].features,
+        path: houses[key].url,
     }));
 }
 

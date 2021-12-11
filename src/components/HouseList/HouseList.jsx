@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { GenericButton } from '../Generic/Buttons';
 import HouseModal from './HouseModal';
@@ -86,19 +86,24 @@ const ItemPerk = styled.li`
 `;
 
 export default function HouseList({ houses }) {
+    const [showOffcanvas, setShowOffcanvas] = useState(false);
+    const [selectedHouse, setSelectedHouse] = useState(null);
+
     const result = houses;
     console.log(result);
 
     return (
         <ListContainer>
-            <HouseModal />
+            {showOffcanvas && (
+                <HouseModal
+                    showOffcanvas={showOffcanvas}
+                    setShowOffcanvas={setShowOffcanvas}
+                    house={selectedHouse}
+                ></HouseModal>
+            )}
             {result.map((house) => (
                 <ListItem key={house.name}>
-                    <ItemImage
-                        src={
-                            'https://exumag.com/wp-content/uploads/2018/02/Grumpy-Cat-t%C5%82o-1170x659.jpg'
-                        }
-                    />
+                    <ItemImage src={house.img} />
                     <ItemDescriptionBox>
                         <ItemName>{house.name}</ItemName>
                         <ItemInfoRow>
@@ -124,7 +129,14 @@ export default function HouseList({ houses }) {
                                 {house.perks['przemysłowy'] && <ItemPerk>Przemysłowy</ItemPerk>}
                             </ItemPerksList>
                         </ItemInfoRow>
-                        <GenericButton>Przejdź do nieruchomości</GenericButton>
+                        <GenericButton
+                            onClick={() => {
+                                setSelectedHouse(house);
+                                setShowOffcanvas(true);
+                            }}
+                        >
+                            Więcej informacji
+                        </GenericButton>
                     </ItemDescriptionBox>
                 </ListItem>
             ))}
