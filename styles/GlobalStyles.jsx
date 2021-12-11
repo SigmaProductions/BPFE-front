@@ -16,7 +16,7 @@ export const GlobalStyles = createGlobalStyle`
         align-items: center;
     }
     body{
-        font-family: Latos;
+        font-family: Lato;
         width: 100%;
         min-width: 1400px;
         height: 100%;

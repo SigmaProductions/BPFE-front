@@ -32,7 +32,7 @@ const NavList = styled.ul`
     justify-content: center;
     margin-left: auto;
 
-    li:first-child a {
+    li:first-child > p {
         border-left: 0;
     }
 `;
