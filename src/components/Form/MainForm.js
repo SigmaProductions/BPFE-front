@@ -44,10 +44,10 @@ const FormButton = styled(GenericButton)`
     }
 
     margin-bottom: 1rem;
-    color: ${({ theme: { color }, isSelected }) =>
-        isSelected ? color.white : color.secondaryBlue} !important;
-    background-color: ${({ theme: { color }, isSelected }) =>
-        isSelected ? color.secondaryBlue : color.white} !important;
+    color: ${({ theme: { color }, $isSelected }) =>
+        $isSelected ? color.white : color.secondaryBlue} !important;
+    background-color: ${({ theme: { color }, $isSelected }) =>
+        $isSelected ? color.secondaryBlue : color.white} !important;
 `;
 
 const CustomAccordion = styled(Accordion)`
@@ -105,7 +105,7 @@ export default function MainForm() {
                                     {values.map((arg) => (
                                         <FormButton
                                             onClick={(e) => handleSelectOption(e)}
-                                            isSelected={selectedOptions.includes(arg)}
+                                            $isSelected={selectedOptions.includes(arg)}
                                             key={arg}
                                             value={arg}
                                         >
