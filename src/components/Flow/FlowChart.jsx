@@ -8,6 +8,7 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import styled from 'styled-components';
 import { FlowSave } from '../../Consts/flowEndpoints';
+import { GenericButton } from '../Generic/Buttons';
 
 import Nodes from './Nodes';
 
@@ -64,31 +65,43 @@ export default function FlowChart() {
     };
     const ChartContainer = styled.div`
     position:relative;
+    display:flex;
+    justify-content: center;
+    flex-flow: column;
+    
     `
 
     const FlowWrapper= styled.div`
     width:70vw;
-    height:90vh;
+    height:80vh;
     `
 
-    const SaveButton = styled.button`
+    const SaveButton = styled(GenericButton)`
+    width:15rem;
+    height: 5rem;
+    margin: auto;
     `;
 
+    async function LoadFlow(){
+            var res=await axios.get(FlowSave);
+            console.log(res)
+            setElements(res.data);
+    }
     async function SaveFlow(){
             await axios.post(FlowSave, elements);
-
     }
     return (
         <ChartContainer>
-            <SaveButton onClick={SaveFlow}>btn</SaveButton>
+            <SaveButton onClick={SaveFlow}>Save</SaveButton>
+            <SaveButton onClick={LoadFlow}>Load</SaveButton>
              <ReactFlowProvider>
             <FlowWrapper ref={reactFlowWrapper}>
                 <ReactFlow elements={elements}
-                    onElementsRemove={onElementsRemove}
-                    onConnect={onConnect}
-                    onDrop={onDrop}
-                    onDragOver={onDragOver}
-                    onLoad={onLoad}
+                        onElementsRemove={onElementsRemove}
+                        onConnect={onConnect}
+                        onDrop={onDrop}
+                        onDragOver={onDragOver}
+                        onLoad={onLoad}
                     >
                     <Controls />
                 </ReactFlow>

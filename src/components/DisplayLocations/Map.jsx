@@ -10,7 +10,7 @@ const MapContainer= styled.div`
 export default function Map() {
     useEffect(()=>{
         const loader = new Loader({
-          apiKey: "",
+          apiKey: "AIzaSyCtweEmcQ3a1G0avP5V1-2DL-nraQt2oxQ",
              version: "weekly"
         });
 
