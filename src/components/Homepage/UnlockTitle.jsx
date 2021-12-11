@@ -11,9 +11,6 @@ const Unlock = styled.div`
     background-color: ${({theme:{color}})=> color.secondaryBlue};
     
     align-items: center;
-    h2{
-        z-index: 2;
-    }
 `
 
 const VideoBackground = styled.video`
@@ -48,7 +45,6 @@ position: absolute;
 top:20%;
 left:30%;
 width: 40%
-
 `
 
 
