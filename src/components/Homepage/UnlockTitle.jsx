@@ -47,6 +47,10 @@ left:30%;
 width: 40%
 `
 
+const RedBik= styled.span`
+    color: red;
+`
+
 
 export default function UnlockTitle() {
     return (
@@ -59,7 +63,7 @@ export default function UnlockTitle() {
                 Your browser does not support the video tag.
             </VideoBackground>
 
-            <LodzZoomText>Unlock power of boat city with BIK api</LodzZoomText>
+            <LodzZoomText>Unlock power of boat city with <RedBik> BIK</RedBik> api</LodzZoomText>
 
         </Unlock>
     )
