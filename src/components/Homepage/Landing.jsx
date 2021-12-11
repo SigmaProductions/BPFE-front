@@ -10,13 +10,13 @@ const Main = styled.div`
     right: 0;
     display: flex;
     flex-flow: column;
-    height: 100%;
+    height: auto;
 `;
 
 const Separator = styled.div`
     width: 100%;
-    height: 10%;
-    background: ${({ theme: { color } }) => color.white};
+    height: 10rem;
+    background-color: ${({ theme: { color } }) => color.white};
     z-index: 2;
     transform: skewY(3deg);
     transform-origin: top right;

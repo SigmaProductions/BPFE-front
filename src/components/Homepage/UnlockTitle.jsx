@@ -42,7 +42,7 @@ const Text = styled.span`
 `;
 
 const RedBik= styled.span`
-    color: red;
+    color: ${({ theme: { color } }) => color.orange};
 `
 
 const LodzZoomText = styled.span`
