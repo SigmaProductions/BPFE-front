@@ -6,6 +6,11 @@ export const color = {
     grey: '#f5f5f5',
     white: '#fefefe',
     darkGrey: '#e5e5e5',
+    green: '#4caf50',
+    orange: '#fd971f',
+    red: '#d32f2f',
+    alertRed: '#dc3545',
+    pink: '#bb86fc',
 };
 
 export const fontSize = {
