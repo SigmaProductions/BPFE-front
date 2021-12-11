@@ -20,8 +20,8 @@ const Nav = styled.nav`
 `;
 
 const Logo = styled.img`
-    width: 20rem;
-    min-width: 20rem;
+    width: 7rem;
+    min-width: 7rem;
     height: 100%;
 `;
 
@@ -64,10 +64,19 @@ const NavButton = styled(GenericButton)`
     height: 4rem;
 `;
 
+const LogoDescription = styled.h2`
+    width: 20rem;
+    display: flex;
+    align-items: center;
+    font-style: italic;
+    font-weight: ${({ theme: { fontWeight } }) => fontWeight.normal};
+`;
+
 export default function Navbar() {
     return (
         <NavbarContainer>
             <Logo src="logo.svg" />
+            <LogoDescription>Sigma Productions</LogoDescription>
             <Nav>
                 <NavList>
                     <NavElement>

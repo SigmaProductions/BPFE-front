@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const StyledCarousel = styled(Carousel)`
     margin-top: 8rem;
-    background: ${({ theme: { color } }) => color.darkGrey};
+    background: ${({ theme: { color } }) => color.secondaryBlue};
     height: 50rem;
     width: 100%;
     .carousel-indicators {
@@ -16,7 +16,7 @@ const StyledCarousel = styled(Carousel)`
     .carousel-caption {
         margin: auto;
         p {
-            color: ${({ theme: { color } }) => color.black};
+            color: ${({ theme: { color } }) => color.white};
             font-size: ${({ theme: { fontSize } }) => fontSize.turbo};
             margin-top: 20%;
         }
@@ -31,7 +31,7 @@ const StyledCarousel = styled(Carousel)`
 `;
 export default function CustomCarousel() {
     return (
-        <StyledCarousel variant="dark">
+        <StyledCarousel>
             <Carousel.Item>
                 <Carousel.Caption>
                     <p>
