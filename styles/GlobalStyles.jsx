@@ -18,6 +18,7 @@ export const GlobalStyles = createGlobalStyle`
     body{
         font-family: Latos;
         width: 100%;
+        min-width: 1400px;
         height: 100%;
         margin: 0;
         padding: 0;
@@ -36,6 +37,7 @@ export const GlobalStyles = createGlobalStyle`
         margin: 0;
     }
     a{
+        color: initial;
         text-decoration: none;
     }
     `;

@@ -20,8 +20,8 @@ const Nav = styled.nav`
 `;
 
 const Logo = styled.img`
-    width: 10rem;
-    min-width: 10rem;
+    width: 20rem;
+    min-width: 20rem;
     height: 100%;
 `;
 
@@ -67,7 +67,7 @@ const NavButton = styled(GenericButton)`
 export default function Navbar() {
     return (
         <NavbarContainer>
-            <Logo src="https://scontent.fktw2-1.fna.fbcdn.net/v/t1.6435-9/150702882_4031311786902311_5371577199348878960_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=pijgEkOUAWwAX_85304&_nc_ht=scontent.fktw2-1.fna&oh=00_AT--KpLYJq20x8hVtofW4uarZ32PqIqFOb1RI0pEXRbRIw&oe=61DA1D8C" />
+            <Logo src="logo.svg" />
             <Nav>
                 <NavList>
                     <NavElement>
