@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import { GenericButton } from '../Generic/Buttons';
 import CustomCarousel from './CustomCarousel';
+import OPTIONS from '../../Consts/options';
 
 const FormContainer = styled.div`
     margin-top: 6rem;
@@ -32,7 +33,21 @@ const FormButtonsContainer = styled.div`
 `;
 
 const FormButton = styled(GenericButton)`
+    :focus,
+    :active {
+        color: ${({ theme: { color } }) => color.white};
+        background-color: ${({ theme: { color } }) => color.secondaryBlue};
+    }
+    :hover {
+        color: ${({ theme: { color } }) => color.white} !important;
+        background-color: ${({ theme: { color } }) => color.secondaryBlue} !important;
+    }
+
     margin-bottom: 1rem;
+    color: ${({ theme: { color }, isSelected }) =>
+        isSelected ? color.white : color.secondaryBlue} !important;
+    background-color: ${({ theme: { color }, isSelected }) =>
+        isSelected ? color.secondaryBlue : color.white} !important;
 `;
 
 const CustomAccordion = styled(Accordion)`
@@ -63,67 +78,44 @@ const SearchButton = styled(FormButton)`
 
 export default function MainForm() {
     const [loading, setLoading] = useState(false);
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
-    const body = {
-        gastronomiczny: false,
-        handlowy: false,
-        usługowy: false,
-        biurowy: true,
-        przemyslowy: false,
-    };
-    axios.post('http://localhost:5000/', body).then((res) => console.log(res.data));
+    function handleSelectOption({ target }) {
+        const { value: optionName } = target;
+        if (selectedOptions.includes(optionName)) {
+            setSelectedOptions((prevState) => prevState.filter((option) => option !== optionName));
+            return;
+        }
+        setSelectedOptions((prevState) => [...prevState, optionName]);
+    }
+
+    const firstLetterUpperCase = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+
     return (
         <>
             <CustomCarousel />
             <FormContainer>
                 <FormHeader>Czego szukasz?</FormHeader>
                 <FormButtonsContainer>
-                    <CustomAccordion>
-                        <Accordion.Item>
-                            <Accordion.Header>Rodzaj lokalu</Accordion.Header>
-                            <Accordion.Body>
-                                <FormButton>Mieszkanie</FormButton>
-                                <FormButton>Usługa</FormButton>
-                                <FormButton>Handel</FormButton>
-                                <FormButton>Wynajem</FormButton>
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </CustomAccordion>
-                    <CustomAccordion>
-                        <Accordion.Item>
-                            <Accordion.Header>Warunki zamieszkania</Accordion.Header>
-                            <Accordion.Body>
-                                <FormButton>Jakość powietrza</FormButton>
-                                <FormButton>Bliska stacja pociągowa</FormButton>
-                                <FormButton>Liczne hotspoty</FormButton>
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </CustomAccordion>
-                    <CustomAccordion>
-                        <Accordion.Item>
-                            <Accordion.Header>Punkty zainteresowań</Accordion.Header>
-                            <Accordion.Body>
-                                <FormButton>Restauracje</FormButton>
-                                <FormButton>Bankomaty</FormButton>
-                                <FormButton>Transport</FormButton>
-                                <FormButton>Edukacja</FormButton>
-                                <FormButton>Kultura</FormButton>
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </CustomAccordion>
-                    <CustomAccordion>
-                        <Accordion.Item>
-                            <Accordion.Header>Infrastruktura</Accordion.Header>
-                            <Accordion.Body>
-                                <FormButton>Parki</FormButton>
-                                <FormButton>Obiekty kulutry</FormButton>
-                                <FormButton>Obiekty sportowe</FormButton>
-                                <FormButton>Zabudowa mieszkaniowa</FormButton>
-                                <FormButton>Domy wolnostojące</FormButton>
-                                <FormButton>Gospodarstwa rolne</FormButton>
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </CustomAccordion>
+                    {OPTIONS.map(({ name, values }) => (
+                        <CustomAccordion key={name}>
+                            <Accordion.Item>
+                                <Accordion.Header>{firstLetterUpperCase(name)}</Accordion.Header>
+                                <Accordion.Body>
+                                    {values.map((arg) => (
+                                        <FormButton
+                                            onClick={(e) => handleSelectOption(e)}
+                                            isSelected={selectedOptions.includes(arg)}
+                                            key={arg}
+                                            value={arg}
+                                        >
+                                            {firstLetterUpperCase(arg)}
+                                        </FormButton>
+                                    ))}
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </CustomAccordion>
+                    ))}
                 </FormButtonsContainer>
                 <SearchButton>
                     {loading ? <Spinner animation="border" /> : 'JEDZIEMY!'}
