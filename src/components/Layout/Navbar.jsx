@@ -72,11 +72,21 @@ const LogoDescription = styled.h2`
     font-weight: ${({ theme: { fontWeight } }) => fontWeight.normal};
 `;
 
+const LogoContainer = styled.div`
+    display: flex;
+    width: auto;
+    cursor: pointer;
+`;
+
 export default function Navbar() {
     return (
         <NavbarContainer>
-            <Logo src="logo.svg" />
-            <LogoDescription>Sigma Productions</LogoDescription>
+            <Link href="/">
+                <LogoContainer>
+                    <Logo src="logo.svg" />
+                    <LogoDescription>Sigma Productions</LogoDescription>
+                </LogoContainer>
+            </Link>
             <Nav>
                 <NavList>
                     <NavElement>
