@@ -10,15 +10,15 @@ import styled from 'styled-components';
 import { FlowSave } from '../../Consts/flowEndpoints';
 import { GenericButton } from '../Generic/Buttons';
 
-import Nodes from './Nodes';
+import NodesPanel from './NodesPanel';
 
 const initialElements = [
-  {
-    id: '1',
-    type: 'input',
-    data: { label: 'input node' },
-    position: { x: 250, y: 5 },
-  },
+    {
+        id: '1',
+        type: 'input',
+        data: { label: 'input node' },
+        position: { x: 250, y: 5 },
+    },
 ];
 
 let id = 0;
@@ -36,7 +36,7 @@ export default function FlowChart() {
     const onConnect = (params) => setElements((els) => addEdge(params, els));
 
     const onLoad = (_reactFlowInstance) => {
-        if(reactFlowInstance==null) setReactFlowInstance(_reactFlowInstance);
+        if (reactFlowInstance == null) setReactFlowInstance(_reactFlowInstance);
     }
     //warning this doesnt work for some reason
 
@@ -71,7 +71,7 @@ export default function FlowChart() {
     
     `
 
-    const FlowWrapper= styled.div`
+    const FlowWrapper = styled.div`
     width:70vw;
     height:80vh;
     `
@@ -82,31 +82,44 @@ export default function FlowChart() {
     margin: auto;
     `;
 
-    async function LoadFlow(){
-            var res=await axios.get(FlowSave);
-            console.log(res)
-            setElements(res.data);
+    const ButtonsContainer= styled.div`
+    display: flex;
+    flex-flow: column;
+    position: fixed;
+    bottom: 1rem;
+    right:1rem;
+    button{
+        margin-top: 1rem;
     }
-    async function SaveFlow(){
-            await axios.post(FlowSave, elements);
+    `
+
+    async function LoadFlow() {
+        var res = await axios.get(FlowSave);
+        console.log(res)
+        setElements(res.data);
+    }
+    async function SaveFlow() {
+        await axios.post(FlowSave, elements);
     }
     return (
         <ChartContainer>
-            <SaveButton onClick={SaveFlow}>Save</SaveButton>
-            <SaveButton onClick={LoadFlow}>Load</SaveButton>
-             <ReactFlowProvider>
-            <FlowWrapper ref={reactFlowWrapper}>
-                <ReactFlow elements={elements}
+            <ButtonsContainer>
+                <SaveButton onClick={SaveFlow}>Save</SaveButton>
+                <SaveButton onClick={LoadFlow}>Load</SaveButton>
+            </ButtonsContainer>
+            <ReactFlowProvider>
+                <FlowWrapper ref={reactFlowWrapper}>
+                    <ReactFlow elements={elements}
                         onElementsRemove={onElementsRemove}
                         onConnect={onConnect}
                         onDrop={onDrop}
                         onDragOver={onDragOver}
                         onLoad={onLoad}
                     >
-                    <Controls />
-                </ReactFlow>
-            </FlowWrapper>
-            <Nodes />
+                        <Controls />
+                    </ReactFlow>
+                </FlowWrapper>
+                <NodesPanel />
             </ReactFlowProvider>
         </ChartContainer>
     )
