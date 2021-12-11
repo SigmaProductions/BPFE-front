@@ -23,7 +23,7 @@ export const fontWeight = {
     extrabold: '900',
 };
 
-export const fontFamily = 'Helvetica';
+export const fontFamily = 'Lato';
 
 export const lineHeight = '2.5';
 
