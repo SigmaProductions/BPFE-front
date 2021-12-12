@@ -1,30 +1,30 @@
-import React, { useEffect } from 'react'
-import { Loader } from "@googlemaps/js-api-loader"
-import {GridAlgorithm, KmeansAlgorithm, MarkerClusterer} from "@googlemaps/markerclusterer";
+import React, { useEffect, useState } from 'react';
+import { Loader } from '@googlemaps/js-api-loader';
+import { GridAlgorithm, KmeansAlgorithm, MarkerClusterer } from '@googlemaps/markerclusterer';
 import styled from 'styled-components';
 
-const MapContainer= styled.div`
-    width:100rem;
-    height:100rem;
-`
+const MapContainer = styled.div`
+    width: 100rem;
+    height: 100rem;
+`;
 
-export default function Map({ places }) {
-    useEffect(()=>{
+export default function Map({ setShowOffcanvas, setSelectedHouse, houses }) {
+    useEffect(() => {
         const loader = new Loader({
-             apiKey: "AIzaSyCtweEmcQ3a1G0avP5V1-2DL-nraQt2oxQ",
-             version: "weekly"
+            apiKey: 'AIzaSyCtweEmcQ3a1G0avP5V1-2DL-nraQt2oxQ',
+            version: 'weekly',
         });
 
         loader.load().then(async () => {
             let geocoder = new google.maps.Geocoder();
 
-            let map = new google.maps.Map(document.getElementById("map"), {
-                center: {lat: 51.75, lng: 19.45},
+            let map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 51.75, lng: 19.45 },
                 zoom: 12,
             });
 
             const image = {
-                url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+                url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
                 // This marker is 20 pixels wide by 32 pixels high.
                 size: new google.maps.Size(20, 32),
                 // The origin for this image is (0, 0).
@@ -36,27 +36,34 @@ export default function Map({ places }) {
             // <area> element 'poly' which traces out a polygon as a series of X,Y points.
             // The final coordinate closes the poly by connecting to the first coordinate.
             const shape = {
-                coords: [20, 20 ,20],
-                type: "circle",
+                coords: [20, 20, 20],
+                type: 'circle',
             };
+            console.log(houses);
 
-
-            for (const place of places) {
+            houses.forEach(async (house) => {
                 await sleep(100);
-                geocode({address: place.address}, geocoder).then(result => {
-                    return {lat: result[0].geometry.location.lat(), lng: result[0].geometry.location.lng()};
-                }).then(result => {
-                    new google.maps.Marker({
-                        position: result,
-                        map: map,
+                geocode({ address: house.address }, geocoder)
+                    .then((result) => {
+                        return {
+                            lat: result[0].geometry.location.lat(),
+                            lng: result[0].geometry.location.lng(),
+                        };
+                    })
+                    .then((result) => {
+                        const marker = new google.maps.Marker({
+                            position: result,
+                            map: map,
+                        });
+                        marker.addListener('click', () => {
+                            setSelectedHouse(house);
+                            setShowOffcanvas(true);
+                        });
                     });
-                })
-            }
-
+            });
         });
 
-        function geocode(request, geocoder)
-        {
+        function geocode(request, geocoder) {
             return geocoder
                 .geocode(request)
                 .then((result) => {
@@ -64,19 +71,18 @@ export default function Map({ places }) {
                     return results;
                 })
                 .catch((e) => {
-                    alert("Geocode was not successful for the following reason: " + e);
+                    alert('Geocode was not successful for the following reason: ' + e);
                 });
         }
 
         function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
+            return new Promise((resolve) => setTimeout(resolve, ms));
         }
-
-    },[]);
+    }, []);
 
     return (
         <div>
             <MapContainer id="map">sdfdsf</MapContainer>
         </div>
-      )
+    );
 }

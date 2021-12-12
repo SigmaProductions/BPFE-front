@@ -8,7 +8,7 @@ const ListContainer = styled.ul`
     flex-direction: column;
     width: auto;
     height: auto;
-    padding: 5rem 10rem 10rem 10rem;
+    padding: 0rem 10rem 10rem 10rem;
     margin: 0;
     text-decortion: none;
     list-style: none;
@@ -85,23 +85,16 @@ const ItemPerk = styled.li`
     font-size: ${({ theme: { fontSize } }) => fontSize.large};
 `;
 
-export default function HouseList({ houses }) {
-    const [showOffcanvas, setShowOffcanvas] = useState(false);
-    const [selectedHouse, setSelectedHouse] = useState(null);
-
-    const result = houses;
-    console.log(result);
-
+export default function HouseList({
+    houses,
+    selectedHouse,
+    setSelectedHouse,
+    setShowOffcanvas,
+    showOffcanvas,
+}) {
     return (
         <ListContainer>
-            {showOffcanvas && (
-                <HouseCanvas
-                    showOffcanvas={showOffcanvas}
-                    setShowOffcanvas={setShowOffcanvas}
-                    house={selectedHouse}
-                ></HouseCanvas>
-            )}
-            {result.map((house) => (
+            {houses.map((house) => (
                 <ListItem key={house.name}>
                     <ItemImage src={house.img} />
                     <ItemDescriptionBox>
@@ -109,15 +102,15 @@ export default function HouseList({ houses }) {
                         <ItemInfoRow>
                             <ItemGeneralColumn>
                                 <ItemGeneralRow>
-                                    <ItemGeneralKey>Address:</ItemGeneralKey>
+                                    <ItemGeneralKey>Adres:</ItemGeneralKey>
                                     <ItemGeneralValue>{house.address}</ItemGeneralValue>
                                 </ItemGeneralRow>
                                 <ItemGeneralRow>
-                                    <ItemGeneralKey>Price:</ItemGeneralKey>
-                                    <ItemGeneralValue>{house.price}</ItemGeneralValue>
+                                    <ItemGeneralKey>Cena:</ItemGeneralKey>
+                                    <ItemGeneralValue>{house.price}PLN</ItemGeneralValue>
                                 </ItemGeneralRow>
                                 <ItemGeneralRow>
-                                    <ItemGeneralKey>Score:</ItemGeneralKey>
+                                    <ItemGeneralKey>Wynik:</ItemGeneralKey>
                                     <ItemGeneralValue>{house.score}</ItemGeneralValue>
                                 </ItemGeneralRow>
                             </ItemGeneralColumn>
@@ -127,6 +120,7 @@ export default function HouseList({ houses }) {
                                 {house.perks.gastronomiczny && <ItemPerk>Gastronomiczny</ItemPerk>}
                                 {house.perks.handlowy && <ItemPerk>Handlowy</ItemPerk>}
                                 {house.perks['przemysłowy'] && <ItemPerk>Przemysłowy</ItemPerk>}
+                                {house.perks['usługowy'] && <ItemPerk>Usługowy</ItemPerk>}
                             </ItemPerksList>
                         </ItemInfoRow>
                         <GenericButton
