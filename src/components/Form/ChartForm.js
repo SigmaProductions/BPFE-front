@@ -122,14 +122,6 @@ export default function ChartForm() {
         const result = node.exitEdges.map((obj) => obj.target);
         return result;
     }
-    async function mockupApiCall() {
-        setLoading(true);
-        await sleep();
-        const options = getOptions(currentNode);
-        console.log(options);
-        setCurrentQuestions(chart.exitEdges);
-        setLoading(false);
-    }
 
     function handleSubmit() {
         const newOptions = getOptions(currentNode);
@@ -148,13 +140,9 @@ export default function ChartForm() {
     function handleSelectNode({ target }) {
         const { value } = target;
         const option = currentQuestions.find((question) => question.data.label === value);
-        console.log(option);
         setCurrentNode(option);
     }
 
-    console.log(currentNode);
-    console.log(currentQuestions);
-    console.log(savedOutputs);
     return (
         <>
             <CustomCarousel />
