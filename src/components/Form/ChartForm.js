@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Accordion, Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import { GenericButton } from '../Generic/Buttons';
 import CustomCarousel from './CustomCarousel';
-import OPTIONS, { MAIN_OPTION_NAMES } from '../../Consts/options';
-import { firstLetterUpperCase } from '../../utils/utils';
-import HouseList from '../HouseList/HouseList';
+import chart from '../../mockups/chart.json';
 import SearchResultScreen from '../SearchResultScreen/SearchResultScreen';
 import { FIRST_QUESTION } from '../../Consts/questions';
 
@@ -101,6 +98,7 @@ const RowHeader = styled.h2`
 
 const ButtonRow = styled.div`
     display: flex;
+    flex-wrap: wrap;
 
     button {
         font-size: 1.8rem;
@@ -114,8 +112,11 @@ async function sleep() {
 }
 
 const otherQuestion = {
-    title: 'Some other question',
-    options: ['option1', 'option2', 'option3'],
+    options: [...Array(10)].map(() =>
+        [...Array(~~(Math.random() * 10 + 3))]
+            .map(() => String.fromCharCode(Math.random() * (123 - 97) + 97))
+            .join(''),
+    ),
 };
 
 export default function ChartForm() {
@@ -125,11 +126,16 @@ export default function ChartForm() {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [finalDecision, setFinalDecision] = useState(null);
 
+    function findFirstQuestion() {
+        const source = chart.find((obj) => obj.type === 'input');
+        console.log(source);
+        console.log(chart);
+    }
+    findFirstQuestion();
     async function mockupApiCall() {
         setLoading(true);
         await sleep();
         setCurrentQuestions(otherQuestion);
-        setFinalDecision(true);
         setLoading(false);
     }
     return (
@@ -140,12 +146,17 @@ export default function ChartForm() {
                     <>
                         <FormHeader>Czego szukasz?</FormHeader>
                         <FormRow>
-                            <RowHeader>{currentQuestions.title}</RowHeader>
+                            <RowHeader>
+                                {currentQuestions.title
+                                    ? currentQuestions.title
+                                    : 'Choose Your preference'}
+                            </RowHeader>
                             <ButtonRow>
                                 {currentQuestions.options.map((option) => (
                                     <MainButtons
-                                        onClick={(e) => setSelectedAnswer(e)}
+                                        onClick={(e) => setSelectedAnswer(e.target.value)}
                                         key={option}
+                                        $isSelected={selectedAnswer === option}
                                         value={option}
                                     >
                                         {option}

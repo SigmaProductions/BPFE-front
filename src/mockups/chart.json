@@ -1,0 +1,184 @@
+
+   { "id": "1",
+    "type": "input",
+    "data": {
+        "label": "Wejscie"
+    },
+    "exitEdges": [
+        {
+            "id": "reactflow__edge-1null-dndnode_c4c7d581-3262-4c50-b5f9-ee9821ea90a7null",
+            "target": {
+                "id": "dndnode_c4c7d581-3262-4c50-b5f9-ee9821ea90a7",
+                "type": "default",
+                "data": {
+                    "label": "czy lubi pan kota",
+                    "endpoint": "null"
+                },
+                "exitEdges": [
+                    {
+                        "id": "reactflow__edge-dndnode_c4c7d581-3262-4c50-b5f9-ee9821ea90a7null-dndnode_d565fa2d-62d8-459c-9022-b474e117f949null",
+                        "target": {
+                            "id": "dndnode_d565fa2d-62d8-459c-9022-b474e117f949",
+                            "type": "default",
+                            "data": {
+                                "label": "ulubione lody",
+                                "endpoint": "null"
+                            },
+                            "exitEdges": [
+                                {
+                                    "id": "reactflow__edge-dndnode_d565fa2d-62d8-459c-9022-b474e117f949null-dndnode_11ca15da-15be-42df-a09b-5edcf8e26c1anull",
+                                    "target": {
+                                        "id": "dndnode_11ca15da-15be-42df-a09b-5edcf8e26c1a",
+                                        "type": "default",
+                                        "data": {
+                                            "label": "cytrynowe",
+                                            "endpoint": "null"
+                                        },
+                                        "exitEdges": [
+                                            {
+                                                "id": "reactflow__edge-dndnode_11ca15da-15be-42df-a09b-5edcf8e26c1anull-dndnode_5c1054f5-577c-40d4-8c71-e262d158d74bnull",
+                                                "target": {
+                                                    "id": "dndnode_5c1054f5-577c-40d4-8c71-e262d158d74b",
+                                                    "type": "output",
+                                                    "data": {
+                                                        "label": "liczba budynków zbiorowego zamieszkania (zbiorZam)",
+                                                        "endpoint": "zbiorZam"
+                                                    },
+                                                    "exitEdges": []
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "id": "reactflow__edge-dndnode_d565fa2d-62d8-459c-9022-b474e117f949null-dndnode_6d2f0b60-7217-4c26-8d86-1bf02527d7d7null",
+                                    "target": {
+                                        "id": "dndnode_6d2f0b60-7217-4c26-8d86-1bf02527d7d7",
+                                        "type": "default",
+                                        "data": {
+                                            "label": "malinowe",
+                                            "endpoint": "null"
+                                        },
+                                        "exitEdges": [
+                                            {
+                                                "id": "reactflow__edge-dndnode_6d2f0b60-7217-4c26-8d86-1bf02527d7d7null-dndnode_63e36f2b-4d91-41b0-aa28-a4c0c34c4cfcnull",
+                                                "target": {
+                                                    "id": "dndnode_63e36f2b-4d91-41b0-aa28-a4c0c34c4cfc",
+                                                    "type": "output",
+                                                    "data": {
+                                                        "label": "liczba budynków o dwóch mieszkaniach (budo2miesz)",
+                                                        "endpoint": "budo2miesz"
+                                                    },
+                                                    "exitEdges": []
+                                                }
+                                            },
+                                            {
+                                                "id": "reactflow__edge-dndnode_6d2f0b60-7217-4c26-8d86-1bf02527d7d7null-dndnode_88aeaa05-4988-4d54-ad7e-a0ac4a86cf82null",
+                                                "target": {
+                                                    "id": "dndnode_88aeaa05-4988-4d54-ad7e-a0ac4a86cf82",
+                                                    "type": "output",
+                                                    "data": {
+                                                        "label": "liczba budynków wielorodzinnych (wielorodz)",
+                                                        "endpoint": "wielorodz"
+                                                    },
+                                                    "exitEdges": []
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "reactflow__edge-dndnode_c4c7d581-3262-4c50-b5f9-ee9821ea90a7null-dndnode_f2457509-70bb-433c-b03a-779e0535767fnull",
+                        "target": {
+                            "id": "dndnode_f2457509-70bb-433c-b03a-779e0535767f",
+                            "type": "output",
+                            "data": {
+                                "label": "liczba budynków jednorodzinnych (jednorodz)",
+                                "endpoint": "jednorodz"
+                            },
+                            "exitEdges": []
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "id": "reactflow__edge-1null-dndnode_e3dbff29-0ce6-4385-a6c6-7a3feba01460null",
+            "target": {
+                "id": "dndnode_e3dbff29-0ce6-4385-a6c6-7a3feba01460",
+                "type": "default",
+                "data": {
+                    "label": "czy owli pan pda",
+                    "endpoint": "null"
+                },
+                "exitEdges": [
+                    {
+                        "id": "reactflow__edge-dndnode_e3dbff29-0ce6-4385-a6c6-7a3feba01460null-dndnode_1e11b101-0399-4de9-bcf7-501e0bf1343dnull",
+                        "target": {
+                            "id": "dndnode_1e11b101-0399-4de9-bcf7-501e0bf1343d",
+                            "type": "default",
+                            "data": {
+                                "label": "tak",
+                                "endpoint": "null"
+                            },
+                            "exitEdges": [
+                                {
+                                    "id": "reactflow__edge-dndnode_1e11b101-0399-4de9-bcf7-501e0bf1343dnull-dndnode_597cf00b-95bc-4079-9690-2b0f08ac4fb0null",
+                                    "target": {
+                                        "id": "dndnode_597cf00b-95bc-4079-9690-2b0f08ac4fb0",
+                                        "type": "output",
+                                        "data": {
+                                            "label": "liczba budynków jednorodzinnych (jednorodz)",
+                                            "endpoint": "jednorodz"
+                                        },
+                                        "exitEdges": []
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "id": "reactflow__edge-dndnode_e3dbff29-0ce6-4385-a6c6-7a3feba01460null-dndnode_e912ee9b-6ab9-4c04-90ab-289a18eed58cnull",
+                        "target": {
+                            "id": "dndnode_e912ee9b-6ab9-4c04-90ab-289a18eed58c",
+                            "type": "default",
+                            "data": {
+                                "label": "nie",
+                                "endpoint": "null"
+                            },
+                            "exitEdges": [
+                                {
+                                    "id": "reactflow__edge-dndnode_e912ee9b-6ab9-4c04-90ab-289a18eed58cnull-dndnode_683775a3-1f63-4066-92c5-3e1a44962bd0null",
+                                    "target": {
+                                        "id": "dndnode_683775a3-1f63-4066-92c5-3e1a44962bd0",
+                                        "type": "output",
+                                        "data": {
+                                            "label": "liczba budynków o dwóch mieszkaniach (budo2miesz)",
+                                            "endpoint": "budo2miesz"
+                                        },
+                                        "exitEdges": []
+                                    }
+                                },
+                                {
+                                    "id": "reactflow__edge-dndnode_e912ee9b-6ab9-4c04-90ab-289a18eed58cnull-dndnode_8a8e8e6b-ed0a-4157-b6df-8f6ebe021142null",
+                                    "target": {
+                                        "id": "dndnode_8a8e8e6b-ed0a-4157-b6df-8f6ebe021142",
+                                        "type": "output",
+                                        "data": {
+                                            "label": "liczba budynków zbiorowego zamieszkania (zbiorZam)",
+                                            "endpoint": "zbiorZam"
+                                        },
+                                        "exitEdges": []
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

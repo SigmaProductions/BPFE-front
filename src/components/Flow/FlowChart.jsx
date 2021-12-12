@@ -20,24 +20,27 @@ const initialElements = [
         position: { x: 250, y: 5 },
     },
 ];
-function generateUUID() { // Public Domain/MIT
-    var d = new Date().getTime();//Timestamp
-    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16;//random number between 0 and 16
-        if(d > 0){//Use timestamp until depleted
-            r = (d + r)%16 | 0;
-            d = Math.floor(d/16);
-        } else {//Use microseconds since page-load if supported
-            r = (d2 + r)%16 | 0;
-            d2 = Math.floor(d2/16);
+function generateUUID() {
+    // Public Domain/MIT
+    var d = new Date().getTime(); //Timestamp
+    var d2 =
+        (typeof performance !== 'undefined' && performance.now && performance.now() * 1000) || 0; //Time in microseconds since page-load or 0 if unsupported
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16; //random number between 0 and 16
+        if (d > 0) {
+            //Use timestamp until depleted
+            r = (d + r) % 16 | 0;
+            d = Math.floor(d / 16);
+        } else {
+            //Use microseconds since page-load if supported
+            r = (d2 + r) % 16 | 0;
+            d2 = Math.floor(d2 / 16);
         }
-        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
     });
 }
 
 const getId = () => `dndnode_${generateUUID()}`;
-
 
 export default function FlowChart() {
     const reactFlowWrapper = useRef(null);
@@ -51,7 +54,7 @@ export default function FlowChart() {
 
     const onLoad = (_reactFlowInstance) => {
         if (reactFlowInstance == null) setReactFlowInstance(_reactFlowInstance);
-    }
+    };
     //warning this doesnt work for some reason
 
     const onDragOver = (event) => {
@@ -64,8 +67,8 @@ export default function FlowChart() {
 
         const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
         const type = event.dataTransfer.getData('application/reactflow');
-        const text=event.dataTransfer.getData('application/reactflow/text');
-        const endpoint=event.dataTransfer.getData('application/reactflow/endpoint');
+        const text = event.dataTransfer.getData('application/reactflow/text');
+        const endpoint = event.dataTransfer.getData('application/reactflow/endpoint');
         const position = reactFlowInstance.project({
             x: event.clientX - reactFlowBounds.left,
             y: event.clientY - reactFlowBounds.top,
@@ -80,33 +83,33 @@ export default function FlowChart() {
         setElements((es) => es.concat(newNode));
     };
     const ChartContainer = styled.div`
-        position:relative;
-        display:flex;
+        position: relative;
+        display: flex;
         justify-content: center;
         flex-flow: column;
-    `
-
-    const FlowWrapper = styled.div`
-        width:70vw;
-        height:80vh;
-    `
-
-    const SaveButton = styled(GenericButton)`
-    width:15rem;
-    height: 5rem;
-    margin: auto;
     `;
 
-    const ButtonsContainer= styled.div`
-    display: flex;
-    flex-flow: column;
-    position: fixed;
-    bottom: 1rem;
-    right:1rem;
-    button{
-        margin-top: 1rem;
-    }
-    `
+    const FlowWrapper = styled.div`
+        width: 70vw;
+        height: 80vh;
+    `;
+
+    const SaveButton = styled(GenericButton)`
+        width: 15rem;
+        height: 5rem;
+        margin: auto;
+    `;
+
+    const ButtonsContainer = styled.div`
+        display: flex;
+        flex-flow: column;
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        button {
+            margin-top: 1rem;
+        }
+    `;
 
     async function LoadFlow() {
         var res = await axios.get(FlowSave);
@@ -123,7 +126,8 @@ export default function FlowChart() {
             </ButtonsContainer>
             <ReactFlowProvider>
                 <FlowWrapper ref={reactFlowWrapper}>
-                    <ReactFlow elements={elements}
+                    <ReactFlow
+                        elements={elements}
                         onElementsRemove={onElementsRemove}
                         onConnect={onConnect}
                         onDrop={onDrop}
@@ -136,5 +140,5 @@ export default function FlowChart() {
                 <NodesPanel />
             </ReactFlowProvider>
         </ChartContainer>
-    )
+    );
 }
