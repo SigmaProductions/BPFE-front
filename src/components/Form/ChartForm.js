@@ -50,26 +50,6 @@ const FormButton = styled(GenericButton)`
         $isSelected ? color.secondaryBlue : color.white} !important;
 `;
 
-const CustomAccordion = styled(Accordion)`
-    width: 25rem;
-    margin-left: 2rem;
-
-    button {
-        font-size: ${({ theme: { fontSize } }) => fontSize.large};
-        font-weight: ${({ theme: { fontWeight } }) => fontWeight.bold};
-    }
-    .accordion-item {
-        border-color: ${({ theme: { color } }) => color.lightBlue};
-    }
-    .accordion-body {
-        display: flex;
-        flex-direction: column;
-    }
-    .accordion-button {
-        color: ${({ theme: { color } }) => color.secondaryBlue};
-    }
-`;
-
 const SearchButton = styled(FormButton)`
     margin-top: 2rem;
     width: 30rem;
@@ -106,10 +86,6 @@ const ButtonRow = styled.div`
         margin-left: 2rem;
     }
 `;
-
-async function sleep() {
-    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
-}
 
 export default function ChartForm() {
     const [loading, setLoading] = useState(false);
