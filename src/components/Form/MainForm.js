@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Accordion, Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
-import axios from 'axios';
 
+import houses from "../../mockups/houses.json"
 import { GenericButton } from '../Generic/Buttons';
 import CustomCarousel from './CustomCarousel';
 import OPTIONS, { MAIN_OPTION_NAMES } from '../../Consts/options';
 import { firstLetterUpperCase } from '../../utils/utils';
-import HouseList from '../HouseList/HouseList';
 import SearchResultScreen from '../SearchResultScreen/SearchResultScreen';
 
 const FormContainer = styled.div`
@@ -110,6 +109,7 @@ const ButtonRow = styled.div`
 
 export default function MainForm() {
     const [loading, setLoading] = useState(false);
+    const [isFinished, setIsFinished] = useState(false)
     const [selectedOptions, setSelectedOptions] = useState([]);
 
     function packData() {
@@ -135,10 +135,19 @@ export default function MainForm() {
         setSelectedOptions((prevState) => [...prevState, optionName]);
     }
 
+    async function mockGetResponse(){
+        setLoading(true)
+        await Promise.resolve(resolve => setTimeout(resolve, 1200))
+        setLoading(false)
+        setIsFinished(true)
+    }
+
     return (
         <>
             <CustomCarousel />
             <FormContainer>
+            {!isFinished ? 
+            <>
                 <FormHeader>Czego szukasz?</FormHeader>
                 <FormRow>
                     <RowHeader>Rodzaj lokalu</RowHeader>
@@ -207,10 +216,10 @@ export default function MainForm() {
                         ))}
                     </FormButtonsContainer>
                 </FormRow>
-                <SearchButton onClick={() => packData()}>
+                <SearchButton onClick={() => mockGetResponse()}>
                     {loading ? <Spinner animation="border" /> : 'JEDZIEMY!'}
-                </SearchButton>
-                <SearchResultScreen />
+                </SearchButton></> :
+                <SearchResultScreen response={houses} />}
             </FormContainer>
         </>
     );
