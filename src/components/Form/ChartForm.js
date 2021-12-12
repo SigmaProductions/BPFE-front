@@ -152,7 +152,7 @@ export default function ChartForm() {
         setLoading(true);
         const data = packData();
         try {
-            const res = await axios.post('http://fc02-85-14-87-42.ngrok.io/', data);
+            const res = await axios.post('/offert-api', data);
             setResponse(res.data);
             setLoading(false);
         } catch (error) {
@@ -165,9 +165,6 @@ export default function ChartForm() {
         const option = currentQuestions.find((question) => question.data.label === value);
         setCurrentNode(option);
     }
-    console.log(currentQuestions);
-    console.log(currentNode);
-    console.log(savedOutputs);
 
     return (
         <>
