@@ -91,9 +91,9 @@ const ButtonRow = styled.div`
 
 export default function ChartForm() {
     const [loading, setLoading] = useState(false);
-    const [currentQuestion, setCurrentQuestion] = useState(chart.exitEdges[0].target.data.question);
-    const [currentNode, setCurrentNode] = useState(chart.exitEdges[0].target);
-    const [currentQuestions, setCurrentQuestions] = useState(getOptions(chart.exitEdges[0].target));
+    const [currentNode, setCurrentNode] = useState(null);
+    const [currentQuestion, setCurrentQuestion] = useState([]);
+    const [currentQuestions, setCurrentQuestions] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [response, setResponse] = useState(null);
     let savedOutputs = [];
@@ -165,55 +165,69 @@ export default function ChartForm() {
         const option = currentQuestions.find((question) => question.data.label === value);
         setCurrentNode(option);
     }
-    console.log(currentQuestions);
-    console.log(currentNode);
-    console.log(savedOutputs);
+
+    async function getChart() {
+        const res = await axios.get('http://9ea8-85-14-87-42.ngrok.io/flow/graph');
+        return res.data;
+    }
+
+    useEffect(() => {
+        getChart().then((res) => {
+            setCurrentNode(res.exitEdges[0].target);
+            setCurrentQuestion(res.exitEdges[0].target.data.question);
+            setCurrentQuestions(getOptions(res.exitEdges[0].target));
+        });
+    }, []);
 
     return (
         <>
             <CustomCarousel />
-            <FormContainer>
-                {!response ? (
-                    <>
-                        <FormHeader>Czego szukasz?</FormHeader>
-                        <FormRow>
-                            <RowHeader>Rodzaj lokalu</RowHeader>
-                            <ButtonRow>
-                                {MAIN_OPTION_NAMES.map((option) => (
-                                    <MainButtons
-                                        onClick={(e) => handleSelectOption(e)}
-                                        $isSelected={selectedOptions.includes(option)}
-                                        key={option}
-                                        value={option}
-                                    >
-                                        {option}
-                                    </MainButtons>
-                                ))}
-                            </ButtonRow>
-                        </FormRow>
-                        <FormRow>
-                            <RowHeader>{loading ? 'Proszę czekać' : currentQuestion}</RowHeader>
-                            <ButtonRow>
-                                {currentQuestions.map((option) => (
-                                    <MainButtons
-                                        onClick={(e) => handleSelectNode(e)}
-                                        key={option.data.label}
-                                        $isSelected={currentNode.data?.label === option.data.label}
-                                        value={option.data.label}
-                                    >
-                                        {option.data.label}
-                                    </MainButtons>
-                                ))}
-                            </ButtonRow>
-                        </FormRow>
-                        <SearchButton onClick={() => handleSubmit()}>
-                            {loading ? <Spinner animation="border" /> : 'JEDZIEMY!'}
-                        </SearchButton>
-                    </>
-                ) : (
-                    <SearchResultScreen response={response} />
-                )}
-            </FormContainer>
+            {currentNode && (
+                <FormContainer>
+                    {!response ? (
+                        <>
+                            <FormHeader>Czego szukasz?</FormHeader>
+                            <FormRow>
+                                <RowHeader>Rodzaj lokalu</RowHeader>
+                                <ButtonRow>
+                                    {MAIN_OPTION_NAMES.map((option) => (
+                                        <MainButtons
+                                            onClick={(e) => handleSelectOption(e)}
+                                            $isSelected={selectedOptions.includes(option)}
+                                            key={option}
+                                            value={option}
+                                        >
+                                            {option}
+                                        </MainButtons>
+                                    ))}
+                                </ButtonRow>
+                            </FormRow>
+                            <FormRow>
+                                <RowHeader>{loading ? 'Proszę czekać' : currentQuestion}</RowHeader>
+                                <ButtonRow>
+                                    {currentQuestions.map((option) => (
+                                        <MainButtons
+                                            onClick={(e) => handleSelectNode(e)}
+                                            key={option.data.label}
+                                            $isSelected={
+                                                currentNode.data?.label === option.data.label
+                                            }
+                                            value={option.data.label}
+                                        >
+                                            {option.data.label}
+                                        </MainButtons>
+                                    ))}
+                                </ButtonRow>
+                            </FormRow>
+                            <SearchButton onClick={() => handleSubmit()}>
+                                {loading ? <Spinner animation="border" /> : 'JEDZIEMY!'}
+                            </SearchButton>
+                        </>
+                    ) : (
+                        <SearchResultScreen response={response} />
+                    )}
+                </FormContainer>
+            )}
         </>
     );
 }
