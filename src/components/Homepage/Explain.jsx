@@ -14,16 +14,15 @@ const ExplainContainer = styled.div`
 `;
 
 const ExplanationBox = styled.div`
-    // flex-basis: 50%;
     border-style: solid;
     max-width: 40%;
-    // 3px 0px 0px 3px
     border-width: ${({where})=> where=="right"? '4px 4px 0px 0px' : '4px 0px 0px 4px'};
     border-radius:2px;
     height: 20rem;
     font-size: 7rem;
     color: ${({theme: {color}})=> color.white};
 
+flex-flow: row;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,23 +41,28 @@ const ExplanationImage = styled.div`
     margin:5rem;
     margin-top:0;
 `;
+const SmallExplanation= styled.span`
+align-text:left;
+width:100%
+margin-top:9rem;
+font-size: 3rem;
+`
 
 export default function Explain() {
     return (
         <ExplainContainer>
-            <ExplanationBox where="left" data-aos="fade-right">How does it work?</ExplanationBox>
+            <ExplanationBox where="left" data-aos="fade-right">Jak to działa?
+            <SmallExplanation>Nasz system pozwala połączyć wiedzę o produkcie z ogromem danych BIK</SmallExplanation></ExplanationBox>
             <ExplanationImage src="/piotrowska.jpg"></ExplanationImage>
 
             <ExplanationImage src="/piotrowska.jpg"></ExplanationImage>
-            <ExplanationBox where="right" data-aos="fade-left">Select places</ExplanationBox>
+            <ExplanationBox where="right" data-aos="fade-left">Zbuduj system
+            <SmallExplanation>Połącz swoją wiedzę domenową z danymi tworząc system ekspercki</SmallExplanation></ExplanationBox>
 
-            <ExplanationBox where="left" data-aos="fade-right">Tell us about Your needs</ExplanationBox>
+            <ExplanationBox where="left" data-aos="fade-right">Udostępnij 
+            <SmallExplanation>Przedstaw system swoim klientom- użyj naszego dynamicznego kwestionariusza, lub wykorzystaj API</SmallExplanation></ExplanationBox>
             <ExplanationImage src="/piotrowska.jpg"></ExplanationImage>
 
-            <ExplanationImage src="/piotrowska.jpg"></ExplanationImage>
-            <ExplanationBox where="right" data-aos="fade-left">
-                Get scoring of potential locals with BIK powered business data
-            </ExplanationBox>
         </ExplainContainer>
     );
 }

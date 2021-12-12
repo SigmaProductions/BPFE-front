@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
 const Unlock = styled.div`
     position: relative;
     width: 100vw;
@@ -25,14 +26,14 @@ const VideoBackground = styled.video`
 const Gradient = styled.div`
     background: linear-gradient(
         125deg,
-        ${({ theme: { color } }) => color.secondaryBlue} 44%,
+        ${({ theme: { color } }) => color.secondaryBlue} 41%,
         transparent
     );
     position: absolute;
     z-index: 2;
-    right: 0;
+    left: 0;
+    right:0;
     bottom: 0;
-    width: 899px;
     height: 100%;
 `;
 
@@ -45,8 +46,8 @@ const LodzZoomText = styled.span`
     font-size: 9rem;
     color: white;
     position: absolute;
-    top: 20%;
-    left: 30%;
+    top: 6rem;
+    left: 10%;
     width: 40%;
 `;
 
@@ -55,7 +56,7 @@ export default function UnlockTitle() {
         <Unlock>
             <Gradient></Gradient>
             <VideoBackground muted width="899" height="707" autoPlay>
-                <source src="/lodz.webm" type="video/webm" />
+                <source src="/LodzZoomin.webm" type="video/webm" />
                 Your browser does not support the video tag.
             </VideoBackground>
 

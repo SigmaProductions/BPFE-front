@@ -70,7 +70,8 @@ export default function FlowChart() {
         if (reactFlowInstance) {
             const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
             const type = event.dataTransfer.getData('application/reactflow');
-            const text = event.dataTransfer.getData('application/reactflow/text');
+            const question = event.dataTransfer.getData('application/reactflow/question');
+            const answer = event.dataTransfer.getData('application/reactflow/answer');
             const endpoint = event.dataTransfer.getData('application/reactflow/endpoint');
             const position = reactFlowInstance.project({
                 x: event.clientX - reactFlowBounds.left,
@@ -80,7 +81,7 @@ export default function FlowChart() {
                 id: getId(),
                 type,
                 position,
-                data: { label: text, endpoint: endpoint },
+                data: { label: question=='null'? answer:question, answer: answer, question:question, endpoint: endpoint },
             };
 
             setElements((es) => es.concat(newNode));

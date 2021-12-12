@@ -15,7 +15,6 @@ const Sidebar = styled.div`
     top: 15rem;
     border: 5px;
     height: 20rem;
-    width: 20rem;
 `;
 const Panel = styled.div`
     height: 30rem;
@@ -65,6 +64,7 @@ const FlowPanel = () => {
     const [searchPhrase, setSearchPhrase] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
     const [questionText, setQuestionText] = useState(null);
+    const [answerText, setAnswerText] = useState(null);
 
     useEffect(() => {
         if (searchPhrase != null) {
@@ -76,9 +76,10 @@ const FlowPanel = () => {
         //  {'summary': 'test1', 'endpoint':  'test2'}]
     }, [searchPhrase]);
 
-    const onDragStart = (event, nodeType, text, endpoint = null) => {
+    const onDragStart = (event, nodeType, questionText, answerText=null, endpoint = null) => {
         event.dataTransfer.setData('application/reactflow', nodeType);
-        event.dataTransfer.setData('application/reactflow/text', text);
+        event.dataTransfer.setData('application/reactflow/question', questionText);
+        event.dataTransfer.setData('application/reactflow/answer', answerText);
         event.dataTransfer.setData('application/reactflow/endpoint', endpoint);
         event.dataTransfer.effectAllowed = 'move';
     };
@@ -87,6 +88,9 @@ const FlowPanel = () => {
     }
     function onQuestionTextChange(event) {
         setQuestionText(event.target.value);
+    }
+    function onAnswerTextChange(event) {
+        setAnswerText(event.target.value);
     }
 
     return (
@@ -147,6 +151,36 @@ const FlowPanel = () => {
                                     <Draggable
                                         onDragStart={(event) =>
                                             onDragStart(event, 'default', questionText)
+                                        }
+                                        draggable
+                                    >
+                                        Przeciągnij mnie
+                                    </Draggable>
+                                </>
+                            )}
+                        </Panel>
+                    </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="2">
+                    <Accordion.Header>Odpowiedzi</Accordion.Header>
+                    <Accordion.Body>
+                        <Panel>
+                            <Description>
+                                Podaj możliwe odpowiedzi użytkownika:
+                            </Description>
+                            <CustomInput
+                                type="text"
+                                placeholder="Odpowiedź..."
+                                onChange={onAnswerTextChange}
+                            />
+                            {answerText && (
+                                <>
+                                    <Description>
+                                        Dodaj do grafu wierzchołek z odpowiedzią:
+                                    </Description>
+                                    <Draggable
+                                        onDragStart={(event) =>
+                                            onDragStart(event, 'default',null,  answerText)
                                         }
                                         draggable
                                     >
