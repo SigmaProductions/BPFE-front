@@ -8,6 +8,7 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import styled from 'styled-components';
 import { FlowSave } from '../../Consts/flowEndpoints';
+import { deepEqual } from '../../utils/utils';
 import { GenericButton } from '../Generic/Buttons';
 
 import NodesPanel from './NodesPanel';
@@ -44,7 +45,7 @@ const getId = () => `dndnode_${generateUUID()}`;
 
 export default function FlowChart() {
     const reactFlowWrapper = useRef(null);
-    const [reactFlowInstance, setReactFlowInstance] = useState(null);
+    const [reactFlowInstance, setReactFlowInstance] = useState();
 
     const [elements, setElements] = useState(initialElements);
 
@@ -52,9 +53,11 @@ export default function FlowChart() {
         setElements((els) => removeElements(elementsToRemove, els));
     const onConnect = (params) => setElements((els) => addEdge(params, els));
 
-    const onLoad = (_reactFlowInstance) => {
-        if (reactFlowInstance == null) setReactFlowInstance(_reactFlowInstance);
-    };
+    const onLoad = (_reactFlowInstance) =>{
+
+      if(reactFlowInstance==null || !deepEqual(_reactFlowInstance.toObject(),reactFlowInstance.toObject()))
+        setReactFlowInstance(_reactFlowInstance);
+    }
     //warning this doesnt work for some reason
 
     const onDragOver = (event) => {
@@ -64,23 +67,24 @@ export default function FlowChart() {
 
     const onDrop = (event) => {
         event.preventDefault();
+        if (reactFlowInstance) {
+            const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+            const type = event.dataTransfer.getData('application/reactflow');
+            const text = event.dataTransfer.getData('application/reactflow/text');
+            const endpoint = event.dataTransfer.getData('application/reactflow/endpoint');
+            const position = reactFlowInstance.project({
+                x: event.clientX - reactFlowBounds.left,
+                y: event.clientY - reactFlowBounds.top,
+            });
+            const newNode = {
+                id: getId(),
+                type,
+                position,
+                data: { label: text, endpoint: endpoint },
+            };
 
-        const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-        const type = event.dataTransfer.getData('application/reactflow');
-        const text = event.dataTransfer.getData('application/reactflow/text');
-        const endpoint = event.dataTransfer.getData('application/reactflow/endpoint');
-        const position = reactFlowInstance.project({
-            x: event.clientX - reactFlowBounds.left,
-            y: event.clientY - reactFlowBounds.top,
-        });
-        const newNode = {
-            id: getId(),
-            type,
-            position,
-            data: { label: text, endpoint: endpoint },
-        };
-
-        setElements((es) => es.concat(newNode));
+            setElements((es) => es.concat(newNode));
+        }
     };
     const ChartContainer = styled.div`
         position: relative;
