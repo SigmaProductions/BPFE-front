@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.12.11",
+    "@googlemaps/markerclusterer": "^1.0.17",
     "aos": "^3.0.0-beta.6",
     "axios": "^0.24.0",
     "bootstrap": "^5.1.3",

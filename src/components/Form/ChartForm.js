@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Accordion, Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import { GenericButton } from '../Generic/Buttons';
 import CustomCarousel from './CustomCarousel';
-import OPTIONS, { MAIN_OPTION_NAMES } from '../../Consts/options';
-import { firstLetterUpperCase } from '../../utils/utils';
-import HouseList from '../HouseList/HouseList';
+import chart from '../../mockups/chart.json';
 import SearchResultScreen from '../SearchResultScreen/SearchResultScreen';
 import { FIRST_QUESTION } from '../../Consts/questions';
 
@@ -53,26 +50,6 @@ const FormButton = styled(GenericButton)`
         $isSelected ? color.secondaryBlue : color.white} !important;
 `;
 
-const CustomAccordion = styled(Accordion)`
-    width: 25rem;
-    margin-left: 2rem;
-
-    button {
-        font-size: ${({ theme: { fontSize } }) => fontSize.large};
-        font-weight: ${({ theme: { fontWeight } }) => fontWeight.bold};
-    }
-    .accordion-item {
-        border-color: ${({ theme: { color } }) => color.lightBlue};
-    }
-    .accordion-body {
-        display: flex;
-        flex-direction: column;
-    }
-    .accordion-button {
-        color: ${({ theme: { color } }) => color.secondaryBlue};
-    }
-`;
-
 const SearchButton = styled(FormButton)`
     margin-top: 2rem;
     width: 30rem;
@@ -101,6 +78,7 @@ const RowHeader = styled.h2`
 
 const ButtonRow = styled.div`
     display: flex;
+    flex-wrap: wrap;
 
     button {
         font-size: 1.8rem;
@@ -109,29 +87,38 @@ const ButtonRow = styled.div`
     }
 `;
 
-async function sleep() {
-    await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-}
-
-const otherQuestion = {
-    title: 'Some other question',
-    options: ['option1', 'option2', 'option3'],
-};
-
 export default function ChartForm() {
     const [loading, setLoading] = useState(false);
-    const [currentQuestions, setCurrentQuestions] = useState(FIRST_QUESTION);
-    const [allQuestions, setAllQuestions] = useState(null);
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [currentNode, setCurrentNode] = useState(chart);
+    const [currentQuestions, setCurrentQuestions] = useState(getOptions(chart));
+    const [savedOutputs, setSavedOutputs] = useState([]);
     const [finalDecision, setFinalDecision] = useState(null);
 
-    async function mockupApiCall() {
-        setLoading(true);
-        await sleep();
-        setCurrentQuestions(otherQuestion);
-        setFinalDecision(true);
-        setLoading(false);
+    function getOptions(node) {
+        const result = node.exitEdges.map((obj) => obj.target);
+        return result;
     }
+
+    function handleSubmit() {
+        const newOptions = getOptions(currentNode);
+
+        if (currentNode.type === 'output')
+            setSavedOutputs((prevState) => [...prevState, currentNode.data.endpoint]);
+        setCurrentQuestions(getOptions(currentNode));
+
+        if (newOptions.length <= 1) {
+            if (newOptions[0].type === 'output')
+                setSavedOutputs((prevState) => [...prevState, newOptions[0].data.endpoint]);
+            return setFinalDecision(true);
+        }
+    }
+
+    function handleSelectNode({ target }) {
+        const { value } = target;
+        const option = currentQuestions.find((question) => question.data.label === value);
+        setCurrentNode(option);
+    }
+
     return (
         <>
             <CustomCarousel />
@@ -140,20 +127,21 @@ export default function ChartForm() {
                     <>
                         <FormHeader>Czego szukasz?</FormHeader>
                         <FormRow>
-                            <RowHeader>{currentQuestions.title}</RowHeader>
+                            <RowHeader>Twoje preferncje: </RowHeader>
                             <ButtonRow>
-                                {currentQuestions.options.map((option) => (
+                                {currentQuestions.map((option) => (
                                     <MainButtons
-                                        onClick={(e) => setSelectedAnswer(e)}
-                                        key={option}
-                                        value={option}
+                                        onClick={(e) => handleSelectNode(e)}
+                                        key={option.data.label}
+                                        $isSelected={currentNode.data?.label === option.data?.label}
+                                        value={option.data.label}
                                     >
-                                        {option}
+                                        {option.data.label}
                                     </MainButtons>
                                 ))}
                             </ButtonRow>
                         </FormRow>
-                        <SearchButton onClick={() => mockupApiCall()}>
+                        <SearchButton onClick={() => handleSubmit()}>
                             {loading ? <Spinner animation="border" /> : 'JEDZIEMY!'}
                         </SearchButton>
                     </>
