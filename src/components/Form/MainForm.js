@@ -9,6 +9,7 @@ import OPTIONS, { MAIN_OPTION_NAMES } from '../../Consts/options';
 import { firstLetterUpperCase } from '../../utils/utils';
 import HouseList from '../HouseList/HouseList';
 import SearchResultScreen from '../SearchResultScreen/SearchResultScreen';
+import houses from '../../mockups/houses.json'
 
 const FormContainer = styled.div`
     margin-top: 6rem;
@@ -210,7 +211,7 @@ export default function MainForm() {
                 <SearchButton onClick={() => packData()}>
                     {loading ? <Spinner animation="border" /> : 'JEDZIEMY!'}
                 </SearchButton>
-                <SearchResultScreen />
+                <SearchResultScreen result={houses} />
             </FormContainer>
         </>
     );

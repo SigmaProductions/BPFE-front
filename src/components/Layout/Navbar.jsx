@@ -96,12 +96,7 @@ export default function Navbar() {
                     </NavElement>
                     <NavElement>
                         <NavLink>
-                            <Link href="/aboutUs">About us</Link>
-                        </NavLink>
-                    </NavElement>
-                    <NavElement>
-                        <NavLink>
-                            <Link href="/charts">Chart</Link>
+                            <Link href="/charts">Demo</Link>
                         </NavLink>
                     </NavElement>
                     <NavElement>
@@ -111,11 +106,10 @@ export default function Navbar() {
                     </NavElement>
                     <NavElement>
                         <NavLink>
-                            <Link href="/flow">Design</Link>
+                            <Link href="/flow">Stwórz system</Link>
                         </NavLink>
                     </NavElement>
                 </NavList>
-                <NavButton>Login</NavButton>
             </Nav>
         </NavbarContainer>
     );
