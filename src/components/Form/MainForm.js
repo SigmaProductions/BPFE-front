@@ -8,7 +8,6 @@ import CustomCarousel from './CustomCarousel';
 import OPTIONS, { MAIN_OPTION_NAMES } from '../../Consts/options';
 import { firstLetterUpperCase } from '../../utils/utils';
 import SearchResultScreen from '../SearchResultScreen/SearchResultScreen';
-import houses from '../../mockups/houses.json'
 
 const FormContainer = styled.div`
     margin-top: 6rem;
