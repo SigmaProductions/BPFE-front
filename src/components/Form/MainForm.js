@@ -123,7 +123,7 @@ export default function MainForm() {
             defaultMainOptions[option] = false;
         });
         const payload = { features, ...defaultMainOptions, ...selectedMainOptions };
-        console.log(payload);
+        return payload;
     }
 
     function handleSelectOption({ target }) {

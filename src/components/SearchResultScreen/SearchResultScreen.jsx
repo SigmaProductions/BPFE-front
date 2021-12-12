@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import HouseList from '../HouseList/HouseList';
 import houses from '../../mockups/houses.json';
 import { GenericButton } from '../Generic/Buttons';
+import Map from '../DisplayLocations/Map';
+import HouseCanvas from '../HouseList/HouseCanvas';
 
 const ScreenContainer = styled.div`
     display: flex;
@@ -26,6 +28,7 @@ function mapHouseObject(houses) {
 
 const ResultHeader = styled.h1`
     text-align: center;
+    font-size: 3rem;
     color: ${({ theme: { color } }) => color.brown};
 `;
 const SwitchButtonsContainer = styled.div`
@@ -34,6 +37,7 @@ const SwitchButtonsContainer = styled.div`
     border-radius: 1.6rem;
     width: 30rem;
     height: 4rem;
+    margin-bottom: 5rem;
     background-color: ${({ theme: { color } }) => color.secondaryBlue};
 `;
 
@@ -47,14 +51,22 @@ const SwitchButton = styled(GenericButton)`
         $isSelected ? color.white : color.secondaryBlue};
 `;
 
-export default function SearchResultScreen() {
+export default function SearchResultScreen({ response }) {
     const [displayList, setDisplayList] = useState(true);
-    const housesList = mapHouseObject(houses);
+    const housesList = mapHouseObject(response);
+    const [showOffcanvas, setShowOffcanvas] = useState(false);
+    const [selectedHouse, setSelectedHouse] = useState(null);
 
-    console.log(houses);
     return (
         <ScreenContainer>
-            <ResultHeader>Your best options:</ResultHeader>
+            {showOffcanvas && (
+                <HouseCanvas
+                    showOffcanvas={showOffcanvas}
+                    setShowOffcanvas={setShowOffcanvas}
+                    house={selectedHouse}
+                ></HouseCanvas>
+            )}
+            <ResultHeader>Twoje najlepsze opcje:</ResultHeader>
             <SwitchButtonsContainer>
                 <SwitchButton onClick={() => setDisplayList(true)} $isSelected={displayList}>
                     List
@@ -63,7 +75,21 @@ export default function SearchResultScreen() {
                     Map
                 </SwitchButton>
             </SwitchButtonsContainer>
-            {displayList ? <HouseList houses={housesList} /> : <div></div>}
+            {displayList ? (
+                <HouseList
+                    showOffcanvas={showOffcanvas}
+                    setShowOffcanvas={setShowOffcanvas}
+                    selectedHouse={selectedHouse}
+                    setSelectedHouse={setSelectedHouse}
+                    houses={housesList}
+                />
+            ) : (
+                <Map
+                    houses={housesList}
+                    setShowOffcanvas={setShowOffcanvas}
+                    setSelectedHouse={setSelectedHouse}
+                ></Map>
+            )}
         </ScreenContainer>
     );
 }

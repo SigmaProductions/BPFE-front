@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Accordion, Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
 
@@ -7,6 +7,8 @@ import CustomCarousel from './CustomCarousel';
 import chart from '../../mockups/chart.json';
 import SearchResultScreen from '../SearchResultScreen/SearchResultScreen';
 import { FIRST_QUESTION } from '../../Consts/questions';
+import { MAIN_OPTION_NAMES } from '../../Consts/options';
+import axios from 'axios';
 
 const FormContainer = styled.div`
     margin-top: 6rem;
@@ -91,8 +93,31 @@ export default function ChartForm() {
     const [loading, setLoading] = useState(false);
     const [currentNode, setCurrentNode] = useState(chart);
     const [currentQuestions, setCurrentQuestions] = useState(getOptions(chart));
-    const [savedOutputs, setSavedOutputs] = useState([]);
-    const [finalDecision, setFinalDecision] = useState(null);
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [response, setResponse] = useState(null);
+    let savedOutputs = [];
+
+    function packData() {
+        const selectedMainOptions = {};
+        selectedOptions
+            .filter((option) => MAIN_OPTION_NAMES.includes(option))
+            .forEach((option) => (selectedMainOptions[option] = true));
+        const defaultMainOptions = {};
+        MAIN_OPTION_NAMES.forEach((option) => {
+            defaultMainOptions[option] = false;
+        });
+        const payload = { features: savedOutputs, ...defaultMainOptions, ...selectedMainOptions };
+        return payload;
+    }
+
+    function handleSelectOption({ target }) {
+        const { value: optionName } = target;
+        if (selectedOptions.includes(optionName)) {
+            setSelectedOptions((prevState) => prevState.filter((option) => option !== optionName));
+            return;
+        }
+        setSelectedOptions((prevState) => [...prevState, optionName]);
+    }
 
     function getOptions(node) {
         const result = node.exitEdges.map((obj) => obj.target);
@@ -102,14 +127,31 @@ export default function ChartForm() {
     function handleSubmit() {
         const newOptions = getOptions(currentNode);
 
-        if (currentNode.type === 'output')
-            setSavedOutputs((prevState) => [...prevState, currentNode.data.endpoint]);
-        setCurrentQuestions(getOptions(currentNode));
+        if (currentNode.type === 'output') {
+            savedOutputs = [...savedOutputs, currentNode.data.endpoint];
+        }
 
+        if (currentNode.exitEdges.length === 0) {
+            setCurrentQuestions([]);
+            return sendRequest();
+        }
         if (newOptions.length <= 1) {
-            if (newOptions[0].type === 'output')
-                setSavedOutputs((prevState) => [...prevState, newOptions[0].data.endpoint]);
-            return setFinalDecision(true);
+            savedOutputs = [...savedOutputs, newOptions[0].data.endpoint];
+            setCurrentQuestions([]);
+            return sendRequest();
+        }
+        setCurrentQuestions(newOptions);
+    }
+
+    async function sendRequest() {
+        setLoading(true);
+        const data = packData();
+        try {
+            const res = await axios.post('http://fc02-85-14-87-42.ngrok.io/', data);
+            setResponse(res.data);
+            setLoading(false);
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -123,11 +165,28 @@ export default function ChartForm() {
         <>
             <CustomCarousel />
             <FormContainer>
-                {!finalDecision ? (
+                {!response ? (
                     <>
                         <FormHeader>Czego szukasz?</FormHeader>
                         <FormRow>
-                            <RowHeader>Twoje preferncje: </RowHeader>
+                            <RowHeader>Rodzaj lokalu</RowHeader>
+                            <ButtonRow>
+                                {MAIN_OPTION_NAMES.map((option) => (
+                                    <MainButtons
+                                        onClick={(e) => handleSelectOption(e)}
+                                        $isSelected={selectedOptions.includes(option)}
+                                        key={option}
+                                        value={option}
+                                    >
+                                        {option}
+                                    </MainButtons>
+                                ))}
+                            </ButtonRow>
+                        </FormRow>
+                        <FormRow>
+                            <RowHeader>
+                                {loading ? 'Proszę czekać' : 'Twoje preferencje:'}
+                            </RowHeader>
                             <ButtonRow>
                                 {currentQuestions.map((option) => (
                                     <MainButtons
@@ -146,7 +205,7 @@ export default function ChartForm() {
                         </SearchButton>
                     </>
                 ) : (
-                    <SearchResultScreen />
+                    <SearchResultScreen response={response} />
                 )}
             </FormContainer>
         </>
