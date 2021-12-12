@@ -126,7 +126,8 @@ const FlowPanel = () => {
                                                     event,
                                                     'output',
                                                     ele['summary'],
-                                                    ele['endpoint'],
+                                                    null,
+                                                    ele['endpoint']
                                                 )
                                             }
                                             draggable
