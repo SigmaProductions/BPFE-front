@@ -31,8 +31,8 @@ flex-flow: row;
 `;
 const ExplanationImage = styled.div`
     width: 50%;
-    min-width: 70rem;
-    height: 70rem;
+    min-width: 60rem;
+    height: 60rem;
     background-image: linear-gradient(to bottom,
         ${({theme: {color}})=> color.secondaryBlue},
         ${({theme: {color}})=> color.primaryBlue}40),
@@ -55,13 +55,13 @@ export default function Explain() {
             <SmallExplanation>Nasz system pozwala połączyć wiedzę o produkcie z ogromem danych BIK</SmallExplanation></ExplanationBox>
             <ExplanationImage src="/piotrowska.jpg"></ExplanationImage>
 
-            <ExplanationImage src="/piotrowska.jpg"></ExplanationImage>
+            <ExplanationImage src="/create.jpg"></ExplanationImage>
             <ExplanationBox where="right" data-aos="fade-left">Zbuduj system
             <SmallExplanation>Połącz swoją wiedzę domenową z danymi tworząc system ekspercki</SmallExplanation></ExplanationBox>
 
             <ExplanationBox where="left" data-aos="fade-right">Udostępnij 
             <SmallExplanation>Przedstaw system swoim klientom- użyj naszego dynamicznego kwestionariusza, lub wykorzystaj API</SmallExplanation></ExplanationBox>
-            <ExplanationImage src="/piotrowska.jpg"></ExplanationImage>
+            <ExplanationImage src="/share.jpg"></ExplanationImage>
 
         </ExplainContainer>
     );

@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { FlowSave } from '../../Consts/flowEndpoints';
 import { deepEqual } from '../../utils/utils';
 import { GenericButton } from '../Generic/Buttons';
+import { flowInstanceDifferent } from '../../utils/utils';
 
 import NodesPanel from './NodesPanel';
 
@@ -55,7 +56,7 @@ export default function FlowChart() {
 
     const onLoad = (_reactFlowInstance) =>{
 
-      if(reactFlowInstance==null || !deepEqual(_reactFlowInstance.toObject(),reactFlowInstance.toObject()))
+      if(reactFlowInstance==null || flowInstanceDifferent(_reactFlowInstance.toObject(),reactFlowInstance.toObject()))
         setReactFlowInstance(_reactFlowInstance);
     }
     //warning this doesnt work for some reason

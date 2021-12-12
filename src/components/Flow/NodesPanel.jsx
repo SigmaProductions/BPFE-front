@@ -12,7 +12,7 @@ const Sidebar = styled.div`
     justify-content: space-around;
     position: absolute;
     right: 1rem;
-    top: 15rem;
+    top: 17rem;
     border: 5px;
     height: 20rem;
 `;
@@ -51,6 +51,14 @@ const SearchResults = styled(Draggable)`
 
     overflow-y: scroll;
 `;
+const DragMe= styled.div`
+display:flex;
+
+border-radius:1rem;
+align-items: center;
+    height:4rem;
+    padding:1rem;
+`
 
 const CustomAccordion = styled(Accordion)`
     width: 60rem;
@@ -105,7 +113,7 @@ const FlowPanel = () => {
                             </Description>
                             <CustomInput
                                 type="text"
-                                placeholder="Cecha..."
+                                placeholder="Wyszukaj cechy..."
                                 onChange={onInputChange}
                             />
                             <SearchResults>
@@ -154,7 +162,7 @@ const FlowPanel = () => {
                                         }
                                         draggable
                                     >
-                                        Przeciągnij mnie
+                                        <DragMe>Przeciągnij mnie</DragMe>
                                     </Draggable>
                                 </>
                             )}
@@ -184,7 +192,7 @@ const FlowPanel = () => {
                                         }
                                         draggable
                                     >
-                                        Przeciągnij mnie
+                                        <DragMe>Przeciągnij mnie</DragMe>
                                     </Draggable>
                                 </>
                             )}

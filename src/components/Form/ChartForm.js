@@ -152,7 +152,7 @@ export default function ChartForm() {
         setLoading(true);
         const data = packData();
         try {
-            const res = await axios.post('http://fc02-85-14-87-42.ngrok.io/', data);
+            const res = await axios.post('/offert-api', data);
             setResponse(res.data);
             setLoading(false);
         } catch (error) {
@@ -167,7 +167,7 @@ export default function ChartForm() {
     }
 
     async function getChart() {
-        const res = await axios.get('http://9ea8-85-14-87-42.ngrok.io/flow/graph');
+        const res = await axios.get('/flow/graph');
         return res.data;
     }
 
