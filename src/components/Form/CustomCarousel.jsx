@@ -35,14 +35,13 @@ export default function CustomCarousel() {
             <Carousel.Item>
                 <Carousel.Caption>
                     <p>
-                        Za pomocą bla bla systemów eksperyckich bla bla znajdziemy dla ciebie
-                        zajebiste rozwiazanie.
+                        Za pomocą naszych systemów eksperyckich znajdziemy dla Ciebie najlepsze z rozwiązań.
                     </p>
                 </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
                 <Carousel.Caption>
-                    <p>Pan Janusz skorzystal i teraz ma fajne auto</p>
+                    <p>Skorzystaj z inteligentnych rozwiązań Sigma Productions. Opracowywuj i twórz własne modele dostosowane do Twoichc potrzeb</p>
                 </Carousel.Caption>
             </Carousel.Item>
         </StyledCarousel>
