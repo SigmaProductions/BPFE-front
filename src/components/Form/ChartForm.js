@@ -108,36 +108,53 @@ const ButtonRow = styled.div`
 `;
 
 async function sleep() {
-    await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
 }
-
-const otherQuestion = {
-    options: [...Array(10)].map(() =>
-        [...Array(~~(Math.random() * 10 + 3))]
-            .map(() => String.fromCharCode(Math.random() * (123 - 97) + 97))
-            .join(''),
-    ),
-};
 
 export default function ChartForm() {
     const [loading, setLoading] = useState(false);
-    const [currentQuestions, setCurrentQuestions] = useState(FIRST_QUESTION);
-    const [allQuestions, setAllQuestions] = useState(null);
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [currentNode, setCurrentNode] = useState(chart);
+    const [currentQuestions, setCurrentQuestions] = useState(getOptions(chart));
+    const [savedOutputs, setSavedOutputs] = useState([]);
     const [finalDecision, setFinalDecision] = useState(null);
 
-    function findFirstQuestion() {
-        const source = chart.find((obj) => obj.type === 'input');
-        console.log(source);
-        console.log(chart);
+    function getOptions(node) {
+        const result = node.exitEdges.map((obj) => obj.target);
+        return result;
     }
-    findFirstQuestion();
     async function mockupApiCall() {
         setLoading(true);
         await sleep();
-        setCurrentQuestions(otherQuestion);
+        const options = getOptions(currentNode);
+        console.log(options);
+        setCurrentQuestions(chart.exitEdges);
         setLoading(false);
     }
+
+    function handleSubmit() {
+        const newOptions = getOptions(currentNode);
+
+        if (currentNode.type === 'output')
+            setSavedOutputs((prevState) => [...prevState, currentNode.data.endpoint]);
+        setCurrentQuestions(getOptions(currentNode));
+
+        if (newOptions.length <= 1) {
+            if (newOptions[0].type === 'output')
+                setSavedOutputs((prevState) => [...prevState, newOptions[0].data.endpoint]);
+            return setFinalDecision(true);
+        }
+    }
+
+    function handleSelectNode({ target }) {
+        const { value } = target;
+        const option = currentQuestions.find((question) => question.data.label === value);
+        console.log(option);
+        setCurrentNode(option);
+    }
+
+    console.log(currentNode);
+    console.log(currentQuestions);
+    console.log(savedOutputs);
     return (
         <>
             <CustomCarousel />
@@ -146,25 +163,21 @@ export default function ChartForm() {
                     <>
                         <FormHeader>Czego szukasz?</FormHeader>
                         <FormRow>
-                            <RowHeader>
-                                {currentQuestions.title
-                                    ? currentQuestions.title
-                                    : 'Choose Your preference'}
-                            </RowHeader>
+                            <RowHeader>Twoje preferncje: </RowHeader>
                             <ButtonRow>
-                                {currentQuestions.options.map((option) => (
+                                {currentQuestions.map((option) => (
                                     <MainButtons
-                                        onClick={(e) => setSelectedAnswer(e.target.value)}
-                                        key={option}
-                                        $isSelected={selectedAnswer === option}
-                                        value={option}
+                                        onClick={(e) => handleSelectNode(e)}
+                                        key={option.data.label}
+                                        $isSelected={currentNode.data?.label === option.data?.label}
+                                        value={option.data.label}
                                     >
-                                        {option}
+                                        {option.data.label}
                                     </MainButtons>
                                 ))}
                             </ButtonRow>
                         </FormRow>
-                        <SearchButton onClick={() => mockupApiCall()}>
+                        <SearchButton onClick={() => handleSubmit()}>
                             {loading ? <Spinner animation="border" /> : 'JEDZIEMY!'}
                         </SearchButton>
                     </>
