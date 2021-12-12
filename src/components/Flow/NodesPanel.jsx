@@ -12,7 +12,7 @@ const Sidebar = styled.div`
     justify-content: space-around;
     position: absolute;
     right: 1rem;
-    top: 15rem;
+    top: 17rem;
     border: 5px;
     height: 20rem;
 `;
