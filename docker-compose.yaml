@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+  frontend:
+    container_name: frontend
+    build: .
+    volumes:
+      - .:/app
+
+networks:
+  default:
+    external:
+      name: external

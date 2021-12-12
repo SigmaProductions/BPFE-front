@@ -167,7 +167,7 @@ export default function ChartForm() {
     }
 
     async function getChart() {
-        const res = await axios.get('/flow/graph');
+        const res = await axios.get('/flowchart-api/flow/graph');
         return res.data;
     }
 
