@@ -91,8 +91,9 @@ const ButtonRow = styled.div`
 
 export default function ChartForm() {
     const [loading, setLoading] = useState(false);
-    const [currentNode, setCurrentNode] = useState(chart);
-    const [currentQuestions, setCurrentQuestions] = useState(getOptions(chart));
+    const [currentQuestion, setCurrentQuestion] = useState(chart.exitEdges[0].target.data.question);
+    const [currentNode, setCurrentNode] = useState(chart.exitEdges[0].target);
+    const [currentQuestions, setCurrentQuestions] = useState(getOptions(chart.exitEdges[0].target));
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [response, setResponse] = useState(null);
     let savedOutputs = [];
@@ -125,13 +126,16 @@ export default function ChartForm() {
     }
 
     function handleSubmit() {
-        const newOptions = getOptions(currentNode);
+        const newNode = currentNode.exitEdges[0].target;
+        setCurrentNode(newNode);
+        const newOptions = getOptions(newNode);
+        console.log(newOptions);
 
         if (currentNode.type === 'output') {
-            savedOutputs = [...savedOutputs, currentNode.data.endpoint];
+            savedOutputs = [...savedOutputs, newNode.data.endpoint];
         }
 
-        if (currentNode.exitEdges.length === 0) {
+        if (newNode.exitEdges.length === 0) {
             setCurrentQuestions([]);
             return sendRequest();
         }
@@ -140,6 +144,7 @@ export default function ChartForm() {
             setCurrentQuestions([]);
             return sendRequest();
         }
+        setCurrentQuestion(newNode.data.question);
         setCurrentQuestions(newOptions);
     }
 
@@ -160,6 +165,9 @@ export default function ChartForm() {
         const option = currentQuestions.find((question) => question.data.label === value);
         setCurrentNode(option);
     }
+    console.log(currentQuestions);
+    console.log(currentNode);
+    console.log(savedOutputs);
 
     return (
         <>
@@ -184,15 +192,13 @@ export default function ChartForm() {
                             </ButtonRow>
                         </FormRow>
                         <FormRow>
-                            <RowHeader>
-                                {loading ? 'Proszę czekać' : 'Twoje preferencje:'}
-                            </RowHeader>
+                            <RowHeader>{loading ? 'Proszę czekać' : currentQuestion}</RowHeader>
                             <ButtonRow>
                                 {currentQuestions.map((option) => (
                                     <MainButtons
                                         onClick={(e) => handleSelectNode(e)}
                                         key={option.data.label}
-                                        $isSelected={currentNode.data?.label === option.data?.label}
+                                        $isSelected={currentNode.data?.label === option.data.label}
                                         value={option.data.label}
                                     >
                                         {option.data.label}
