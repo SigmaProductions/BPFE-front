@@ -126,14 +126,16 @@ export default function ChartForm() {
     }
 
     function handleSubmit() {
-        const newOptions = getOptions(currentNode);
+        const newNode = currentNode.exitEdges[0].target;
+        setCurrentNode(newNode);
+        const newOptions = getOptions(newNode);
         console.log(newOptions);
 
         if (currentNode.type === 'output') {
-            savedOutputs = [...savedOutputs, currentNode.data.endpoint];
+            savedOutputs = [...savedOutputs, newNode.data.endpoint];
         }
 
-        if (currentNode.exitEdges.length === 0) {
+        if (newNode.exitEdges.length === 0) {
             setCurrentQuestions([]);
             return sendRequest();
         }
@@ -142,7 +144,7 @@ export default function ChartForm() {
             setCurrentQuestions([]);
             return sendRequest();
         }
-        setCurrentQuestion(currentNode.data.question);
+        setCurrentQuestion(newNode.data.question);
         setCurrentQuestions(newOptions);
     }
 
@@ -161,9 +163,10 @@ export default function ChartForm() {
     function handleSelectNode({ target }) {
         const { value } = target;
         const option = currentQuestions.find((question) => question.data.label === value);
-        setCurrentNode(option.exitEdges[0].target);
+        setCurrentNode(option);
     }
     console.log(currentQuestions);
+    console.log(currentNode);
     console.log(savedOutputs);
 
     return (
@@ -195,10 +198,7 @@ export default function ChartForm() {
                                     <MainButtons
                                         onClick={(e) => handleSelectNode(e)}
                                         key={option.data.label}
-                                        $isSelected={
-                                            currentNode.data?.label ===
-                                            option.exitEdges[0].target.data.label
-                                        }
+                                        $isSelected={currentNode.data?.label === option.data.label}
                                         value={option.data.label}
                                     >
                                         {option.data.label}
