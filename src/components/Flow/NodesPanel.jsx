@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Accordion, Form } from 'react-bootstrap';
+import { findEndpointObjectsWithPhrase } from '../../utils/utils';
 
 const Sidebar = styled.div`
     display:flex;
@@ -16,7 +17,7 @@ const Sidebar = styled.div`
     height:20rem;
     width:20rem;
 `
-const Panel=styled.div`
+const Panel = styled.div`
 height: 30rem;
 width: 30rem;
 display: flex;
@@ -26,7 +27,7 @@ align-items: center;
 padding: 2rem;
 `
 
-const CustomInput= styled(Form.Control)`
+const CustomInput = styled(Form.Control)`
     width: 100%;
 `
 
@@ -35,10 +36,8 @@ font-size: 1.5rem;
 `
 const Draggable = styled.div`
     text-align: center;
-    height: 6rem;
     padding:1rem;
-    width:10rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
     border-radius:5px;
     border: 3px blue;
     :hover{
@@ -46,6 +45,10 @@ const Draggable = styled.div`
     }
 `
 const SearchResults = styled(Draggable)`
+display: flex;
+flex-wrap: wrap;
+
+overflow:hidden;
 `
 
 const CustomAccordion = styled(Accordion)`
@@ -58,10 +61,16 @@ export default () => {
     const [questionText, setQuestionText] = useState(null);
 
     useEffect(() => {
-        setSearchResults( [{'summary': 'test1', 'endpoint':  'test2'}] );
+        if (searchPhrase != null) {
+            var res = findEndpointObjectsWithPhrase(searchPhrase)
+            setSearchResults(res);
+        }
+        //mock:  [{'summary': 'test1', 'endpoint':  'test2'},
+        //     {'summary': 'test1', 'endpoint':  'test2'},
+        //  {'summary': 'test1', 'endpoint':  'test2'}] 
     }, [searchPhrase]);
 
-    const onDragStart = (event, nodeType, text, endpoint=null) => {
+    const onDragStart = (event, nodeType, text, endpoint = null) => {
         event.dataTransfer.setData('application/reactflow', nodeType);
         event.dataTransfer.setData('application/reactflow/text', text);
         event.dataTransfer.setData('application/reactflow/endpoint', endpoint);
@@ -69,12 +78,12 @@ export default () => {
     };
     function onInputChange(event) {
         setSearchPhrase(
-             event.target.value
+            event.target.value
         );
     }
     function onQuestionTextChange(event) {
         setQuestionText(
-             event.target.value
+            event.target.value
         );
     }
 
@@ -87,12 +96,12 @@ export default () => {
                     <Accordion.Body>
                         <Panel>
                             <Description>Podaj cechę ze zbioru którą chcesz dodać do grafu:</Description>
-                            <CustomInput type="text" placeholder="Cecha..." onChange={onInputChange}  />
+                            <CustomInput type="text" placeholder="Cecha..." onChange={onInputChange} />
                             <SearchResults>
-                                {searchResults.map((ele,index) => {
-                                    return  <Draggable onDragStart={(event) => onDragStart(event, 'output', ele['summary'], ele['endpoint'])} draggable>
-                                                {ele['summary']}
-                                            </Draggable>
+                                {searchResults.map((ele, index) => {
+                                    return <Draggable onDragStart={(event) => onDragStart(event, 'output', ele['summary'], ele['endpoint'])} draggable>
+                                        {ele['summary']}
+                                    </Draggable>
                                 })}
                             </SearchResults>
 
@@ -104,13 +113,13 @@ export default () => {
                     <Accordion.Body>
                         <Panel>
                             <Description>Podaj pytanie które zostanie zadane użytkownikowi:</Description>
-                            <CustomInput type="text" placeholder="Pytanie..." onChange={onQuestionTextChange}  />
-                                {questionText &&
-                            <><Description>Dodaj do grafu wierzchołek z pytaniem:</Description>
-                            <Draggable onDragStart={(event) => onDragStart(event, 'default', questionText)} draggable>
-                                Przeciągnij mnie
-                            </Draggable>
-                            </>  }
+                            <CustomInput type="text" placeholder="Pytanie..." onChange={onQuestionTextChange} />
+                            {questionText &&
+                                <><Description>Dodaj do grafu wierzchołek z pytaniem:</Description>
+                                    <Draggable onDragStart={(event) => onDragStart(event, 'default', questionText)} draggable>
+                                        Przeciągnij mnie
+                                    </Draggable>
+                                </>}
                         </Panel>
                     </Accordion.Body>
                 </Accordion.Item>
